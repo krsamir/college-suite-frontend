@@ -7,6 +7,8 @@ import OwnerHome from "./component/Owner/Home";
 import AdminHome from "./component/Admin/Home";
 import TeacherHome from "./component/Teacher/Home";
 import StudentHome from "./component/Student/Home";
+import TeacherUpdate from "./component/Admin/TeacherCreation";
+import Dept_and_position from "./component/Admin/DepartmentAndPosition";
 import Home from "./component/Layout/Home";
 import NoticeBoard from "./component/Layout/NoticeBoard";
 import CreateNotice from "./component/Admin/CreateNotice";
@@ -37,9 +39,19 @@ const Routes = () => {
             component={CreateNotice}
           />
         )}
+        {role === "admin" && (
+          <ProtectedRoute path="/teacher" exact component={TeacherUpdate} />
+        )}
+        {role === "admin" && (
+          <ProtectedRoute
+            path="/department-position"
+            exact
+            component={Dept_and_position}
+          />
+        )}
+
         <Route path="/login" exact component={LoginScreen} />
         <Route path="/notices" exact component={NoticeBoard} />
-
         <Route
           path="*"
           component={() => {

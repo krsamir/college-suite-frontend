@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../Redux/Actions/TokenAction";
 
 const NoticeTable = (props) => {
-  console.log(props.update);
+  // console.log(props.update);
   const [notice, setNotice] = useState([]);
   const updateNotice = () => {
     axios
@@ -117,31 +117,35 @@ const NoticeTable = (props) => {
         </thead>
         <tbody>
           {notice.length !== 0 &&
-            notice.map((value, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{value.Title}</td>
-                <td>{value.body}</td>
-                <td
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <i
-                    className="fas fa-pencil-alt"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleEdit(value)}
-                  ></i>
-                  <i
-                    className="fas fa-trash-alt"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleDelete(value)}
-                  ></i>
-                </td>
-              </tr>
-            ))}
+            notice.map((value, index) => {
+              return (
+                value.status === "1" && (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{value.Title}</td>
+                    <td>{value.body}</td>
+                    <td
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <i
+                        className="fas fa-pencil-alt"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleEdit(value)}
+                      ></i>
+                      <i
+                        className="fas fa-trash-alt"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleDelete(value)}
+                      ></i>
+                    </td>
+                  </tr>
+                )
+              );
+            })}
         </tbody>
       </Table>
       <Modal

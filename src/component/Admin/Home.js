@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
 import { adminSummary } from "../../Redux/Actions/UserAction";
 const Home = (props) => {
+  const { adminSummary } = props;
   useEffect(() => {
-    props.adminSummary();
+    adminSummary();
     // axios
     //   .get("/api/admin")
     //   .then((res) => {
@@ -15,7 +16,7 @@ const Home = (props) => {
     //   .catch((e) => {
     //     console.log(e);
     //   });
-  }, []);
+  }, [adminSummary]);
 
   const handleLogout = () => {
     props.removeToken();
@@ -53,6 +54,15 @@ const Home = (props) => {
           </LinkContainer>
           <LinkContainer to="/create-notice" style={{ cursor: "pointer" }}>
             <ListGroup.Item>Create & Edit Notices</ListGroup.Item>
+          </LinkContainer>
+          <LinkContainer to="/teacher" style={{ cursor: "pointer" }}>
+            <ListGroup.Item>Manage Teachers</ListGroup.Item>
+          </LinkContainer>
+          <LinkContainer
+            to="/department-position"
+            style={{ cursor: "pointer" }}
+          >
+            <ListGroup.Item>Manage Department and Position</ListGroup.Item>
           </LinkContainer>
         </ListGroup>
       </Card>
