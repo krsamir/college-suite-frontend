@@ -8,13 +8,13 @@ import {
   Form,
 } from "react-bootstrap";
 import axios from "axios";
-import { adminSummary } from "../../Redux/Actions/UserAction";
-import { removeToken } from "../../Redux/Actions/TokenAction";
+import { adminSummary } from "../../../Redux/Actions/UserAction";
+import { removeToken } from "../../../Redux/Actions/TokenAction";
 import {
   successToast,
   ErrorToast,
   warningToast,
-} from "../../Redux/Actions/ToastAction";
+} from "../../../Redux/Actions/ToastAction";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

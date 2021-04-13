@@ -5,18 +5,18 @@ import {
   successToast,
   ErrorToast,
   warningToast,
-} from "../../Redux/Actions/ToastAction";
+} from "../../../Redux/Actions/ToastAction";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { removeToken } from "../../Redux/Actions/TokenAction";
+import { removeToken } from "../../../Redux/Actions/TokenAction";
 
 const NoticeTable = (props) => {
   // console.log(props.update);
   const [notice, setNotice] = useState([]);
   const updateNotice = () => {
     axios
-      .get("/get_notice")
+      .get("/api/get_notice")
       .then((res) => setNotice(res.data))
       .catch((e) => {
         console.log(e);
@@ -24,7 +24,7 @@ const NoticeTable = (props) => {
   };
   useEffect(() => {
     axios
-      .get("/get_notice")
+      .get("/api/get_notice")
       .then((res) => setNotice(res.data))
       .catch((e) => {
         console.log(e);

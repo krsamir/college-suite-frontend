@@ -7,11 +7,11 @@ import OwnerHome from "./component/Owner/Home";
 import AdminHome from "./component/Admin/Home";
 import TeacherHome from "./component/Teacher/Home";
 import StudentHome from "./component/Student/Home";
-import TeacherUpdate from "./component/Admin/TeacherCreation";
-import Dept_and_position from "./component/Admin/DepartmentAndPosition";
+import TeacherUpdate from "./component/Teacher/TeacherCreation";
+import Dept_and_position from "./component/Admin/Department and Position Module/DepartmentAndPosition";
 import Home from "./component/Layout/Home";
 import NoticeBoard from "./component/Layout/NoticeBoard";
-import CreateNotice from "./component/Admin/CreateNotice";
+import CreateNotice from "./component/Admin/Notice Module/CreateNotice";
 const Routes = () => {
   const cookies = new Cookies();
   const role = cookies.get("rid");

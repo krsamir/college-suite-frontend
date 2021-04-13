@@ -1,10 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
 const TeacherUpdate = (props) => {
+  const [deptArray, setDeptArray] = useState([{ value: "", label: "" }]);
+  const [positionArray, setPositionArray] = useState([
+    { value: "", label: "" },
+  ]);
+  useEffect(() => {
+    const deptObj = { value: "", label: "" };
+    const getDepartment = async () => {
+      await axios
+        .get(`/api/getDepartment`)
+        .then((res) => {
+          const deptArrays = res.data.map((val) => {
+            deptObj.value = val.dept_name;
+            deptObj.label = val.dept_name;
+            return { value: deptObj.value, label: deptObj.label };
+          });
+          setDeptArray(deptArrays);
+          // { value: "chocolate", label: "Chocolate" }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    const getPosition = async () => {
+      await axios
+        .get(`/api/getPosition`)
+        .then((res) => {
+          const positionArrays = res.data.map((val) => {
+            deptObj.value = val.position;
+            deptObj.label = val.position;
+            return { value: deptObj.value, label: deptObj.label };
+          });
+          setPositionArray(positionArrays);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    getDepartment();
+    getPosition();
+  }, []);
   const [data, setData] = useState([
     {
       employee_id: Date.now(),
@@ -21,11 +61,11 @@ const TeacherUpdate = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const animatedComponents = makeAnimated();
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  // const options = [
+  //   { value: "chocolate", label: "Chocolate" },
+  //   { value: "strawberry", label: "Strawberry" },
+  //   { value: "vanilla", label: "Vanilla" },
+  // ];
   const handleAdd = () => {
     var values = [...data];
     values = [
@@ -184,7 +224,7 @@ const TeacherUpdate = (props) => {
                       components={animatedComponents}
                       // defaultValue={[options[1]]}
                       isMulti
-                      options={options}
+                      options={positionArray}
                       name="position"
                       // value={value.position}
                       onChange={(value, action) => {
@@ -201,7 +241,7 @@ const TeacherUpdate = (props) => {
                       components={animatedComponents}
                       // defaultValue={[options[1]]}
                       isMulti
-                      options={options}
+                      options={deptArray}
                       name="department"
                       // value={options.filter((val) =>
                       //   val.value.includes(value.department)

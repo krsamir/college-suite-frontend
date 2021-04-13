@@ -42,17 +42,15 @@ const DepartmentAndPosition = () => {
     setData(values);
   };
   const handleSave = () => {
-    console.log(data);
-
-    // axios
-    //   .post("/api/create_teacher", data)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // handleClose();
+    axios
+      .post("/api/create_department", data)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    handleClose();
   };
   return (
     <>

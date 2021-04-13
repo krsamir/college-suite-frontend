@@ -5,7 +5,7 @@ const NoticeBoard = () => {
   const [notice, setNotice] = useState([]);
   useEffect(() => {
     axios
-      .get("/get_notice")
+      .get("/api/get_notice")
       .then((res) => setNotice(res.data))
       .catch((e) => {
         console.log(e);
