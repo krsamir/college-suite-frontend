@@ -110,7 +110,7 @@ function CreateNotice(props) {
         >
           <Col md="8">
             <h3 style={{ marginBottom: "20px" }}> Edit / Delete Notice</h3>
-            <NoticeTable />
+            <NoticeTable {...props} />
           </Col>
         </Row>
       </Container>

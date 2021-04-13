@@ -207,11 +207,7 @@ const EditDepartment = (props) => {
                 />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group controlId="formBasicName"></Form.Group>
-            </Col>
           </Row>
-          <hr />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

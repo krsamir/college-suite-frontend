@@ -55,14 +55,14 @@ const DepartmentComponent = (props) => {
     axios
       .post("/api/create_department", data)
       .then((res) => {
-        if (res.data.status === "success") {
-          props.successToast("Position Created Successfully!");
+        if (res.data.status === "created") {
+          props.successToast("Department Created Successfully!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } else if (res.data.status === "duplicate") {
-          props.warningToast("Duplicate Position cannot be created.");
+          props.warningToast("Duplicate Department cannot be created.");
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       })
       .catch((error) => {
         console.log(error);
@@ -133,7 +133,14 @@ const DepartmentComponent = (props) => {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group controlId="formBasicName">
+                  <Form.Group
+                    controlId="formBasicName"
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      marginRight: "50px",
+                    }}
+                  >
                     <Button
                       style={{ marginTop: "30px" }}
                       onClick={() => handleRemove(index)}

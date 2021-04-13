@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import "./NoticeBoard.css";
-const NoticeBoard = () => {
-  const [notice, setNotice] = useState([]);
+import { adminUtils } from "../../Redux/Actions/AdminAction";
+import { connect } from "react-redux";
+const NoticeBoard = (props) => {
+  const { adminUtils, notice } = props;
   useEffect(() => {
-    axios
-      .get("/api/get_notice")
-      .then((res) => setNotice(res.data))
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+    adminUtils();
+  }, [adminUtils]);
   return (
     <div>
       <div className="corners">
@@ -35,4 +31,8 @@ const NoticeBoard = () => {
   );
 };
 
-export default NoticeBoard;
+const mapStateToProps = (state) => ({
+  notice: state.admin.data,
+});
+
+export default connect(mapStateToProps, { adminUtils })(NoticeBoard);

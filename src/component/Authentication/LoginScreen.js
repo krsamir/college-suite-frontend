@@ -22,8 +22,8 @@ function LoginScreen(props) {
   const [ownerPassword, setOwnerPassword] = useState("owner");
   const [studentRegdNo, setStudentRegdNo] = useState("4");
   const [studentPassword, setStudentPassword] = useState("12345");
-  const [teacherEmpId, setTeacherEmpId] = useState("1");
-  const [teacherPassword, setTeacherPassword] = useState("12345");
+  const [teacherEmpId, setTeacherEmpId] = useState("teacher");
+  const [teacherPassword, setTeacherPassword] = useState("teacher");
 
   const handleAdminLogin = async () => {
     await axios

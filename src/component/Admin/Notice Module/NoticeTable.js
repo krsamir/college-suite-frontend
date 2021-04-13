@@ -10,26 +10,23 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
+import { adminUtils } from "../../../Redux/Actions/AdminAction";
 
 const NoticeTable = (props) => {
+  const { adminUtils, notice, history } = props;
   // console.log(props.update);
-  const [notice, setNotice] = useState([]);
-  const updateNotice = () => {
-    axios
-      .get("/api/get_notice")
-      .then((res) => setNotice(res.data))
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  // const [notice, setNotice] = useState([]);
+  // const updateNotice = () => {
+  //   axios
+  //     .get("/api/get_notice")
+  //     .then((res) => setNotice(res.data))
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
   useEffect(() => {
-    axios
-      .get("/api/get_notice")
-      .then((res) => setNotice(res.data))
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+    adminUtils();
+  }, [adminUtils]);
   const [show, setShow] = useState(false);
   const [handleInput, setHandleInput] = useState({
     id: "",
@@ -53,13 +50,14 @@ const NoticeTable = (props) => {
       .then((res) => {
         if (res.data === "success") {
           props.successToast("Notice Deleted Successfully!");
-          updateNotice();
+          adminUtils();
         }
       })
       .catch((e) => {
         console.log(e);
         props.ErrorToast("Notice cannot be Deleted due to some issue!");
         props.removeToken();
+        history.push("/");
       });
   };
   const handleChange = (e) => {
@@ -85,7 +83,7 @@ const NoticeTable = (props) => {
               noticeTitle: "",
               noticeBody: "",
             });
-            updateNotice();
+            adminUtils();
             handleClose();
           }
         })
@@ -93,6 +91,7 @@ const NoticeTable = (props) => {
           console.log(e);
           props.ErrorToast("Notice cannot be updated due to some issue!");
           props.removeToken();
+          history.push("/");
         });
     }
   };
@@ -198,9 +197,14 @@ const NoticeTable = (props) => {
   );
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  notice: state.admin.data,
+});
+
+export default connect(mapStateToProps, {
   successToast,
   ErrorToast,
   warningToast,
   removeToken,
+  adminUtils,
 })(NoticeTable);

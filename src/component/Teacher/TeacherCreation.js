@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-
+import TeacherTable from "./TeacherTable";
 const TeacherUpdate = (props) => {
   const [deptArray, setDeptArray] = useState([{ value: "", label: "" }]);
   const [positionArray, setPositionArray] = useState([
@@ -131,6 +131,9 @@ const TeacherUpdate = (props) => {
       .post("/api/create_teacher", data)
       .then((response) => {
         console.log(response.data);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
@@ -140,7 +143,11 @@ const TeacherUpdate = (props) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        variant="primary"
+        onClick={handleShow}
+        style={{ marginTop: "50px", marginBottom: "50px" }}
+      >
         Create Teacher{" "}
         <i className="fas fa-pencil-alt" style={{ cursor: "pointer" }}></i>
       </Button>
@@ -303,6 +310,7 @@ const TeacherUpdate = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <TeacherTable />
     </>
   );
 };
