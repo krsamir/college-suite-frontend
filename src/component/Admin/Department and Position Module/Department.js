@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
+import {
+  successToast,
+  ErrorToast,
+  warningToast,
+} from "../../../Redux/Actions/ToastAction";
+import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { removeToken } from "../../../Redux/Actions/TokenAction";
 
-const DepartmentAndPosition = () => {
+const DepartmentComponent = (props) => {
+  const { history, removeToken } = props;
   const [data, setData] = useState([
     {
       dept_id: "",
@@ -44,11 +54,20 @@ const DepartmentAndPosition = () => {
   const handleSave = () => {
     axios
       .post("/api/create_department", data)
-      .then((response) => {
-        console.log(response.data);
+      .then((res) => {
+        if (res.data.status === "success") {
+          props.successToast("Position Created Successfully!");
+        } else if (res.data.status === "duplicate") {
+          props.warningToast("Duplicate Position cannot be created.");
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
+        removeToken();
+        history.push("/");
       });
     handleClose();
   };
@@ -138,8 +157,14 @@ const DepartmentAndPosition = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer />
     </>
   );
 };
 
-export default DepartmentAndPosition;
+export default connect(null, {
+  successToast,
+  ErrorToast,
+  warningToast,
+  removeToken,
+})(DepartmentComponent);

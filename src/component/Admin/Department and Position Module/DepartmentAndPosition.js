@@ -10,10 +10,10 @@ const DepartmentAndPosition = (props) => {
       <Container style={{ marginTop: "50px" }}>
         <Row style={{ marginBottom: "30px" }}>
           <Col>
-            <Department />
+            <Department {...props} />
           </Col>
           <Col>
-            <Position />
+            <Position {...props} />
           </Col>
         </Row>
         <Row>
