@@ -56,6 +56,7 @@ function CreateNotice(props) {
           console.log(e);
           props.ErrorToast("Notice cannot be created due to some issue!");
           props.removeToken();
+          props.history.push("/");
         });
     }
   };

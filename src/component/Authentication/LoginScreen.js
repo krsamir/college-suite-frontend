@@ -20,8 +20,8 @@ function LoginScreen(props) {
   const [adminPassword, setAdminPassword] = useState("admin");
   const [ownerEmail, setOwnerEmail] = useState("owner");
   const [ownerPassword, setOwnerPassword] = useState("owner");
-  const [studentRegdNo, setStudentRegdNo] = useState("4");
-  const [studentPassword, setStudentPassword] = useState("12345");
+  const [studentRegdNo, setStudentRegdNo] = useState("student");
+  const [studentPassword, setStudentPassword] = useState("student");
   const [teacherEmpId, setTeacherEmpId] = useState("teacher");
   const [teacherPassword, setTeacherPassword] = useState("teacher");
 

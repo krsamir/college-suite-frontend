@@ -10,6 +10,7 @@ const TeacherUpdate = (props) => {
     { value: "", label: "" },
   ]);
   useEffect(() => {
+    document.title = "Create Teacher";
     const deptObj = { value: "", label: "" };
     const getDepartment = async () => {
       await axios
