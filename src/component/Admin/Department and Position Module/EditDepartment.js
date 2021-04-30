@@ -41,6 +41,7 @@ const EditDepartment = (props) => {
     id: "",
     dept_id: "",
     dept_name: "",
+    section: "",
     status: "",
   });
   const handleClose = () => setShow(false);
@@ -51,6 +52,7 @@ const EditDepartment = (props) => {
       id: value.id,
       dept_id: value.dept_id,
       dept_name: value.dept_name,
+      section: value.section,
       status: value.status,
     });
     handleShow();
@@ -93,6 +95,7 @@ const EditDepartment = (props) => {
               id: "",
               dept_id: "",
               dept_name: "",
+              section: "",
             });
             updatePosition();
             handleClose();
@@ -115,6 +118,7 @@ const EditDepartment = (props) => {
       id: "",
       dept_id: "",
       dept_name: "",
+      section: "",
       status: "",
     });
   };
@@ -128,6 +132,7 @@ const EditDepartment = (props) => {
             <th>#</th>
             <th>Department ID</th>
             <th>Department</th>
+            <th>Sections</th>
             <th>Edit/Delete</th>
           </tr>
         </thead>
@@ -140,6 +145,7 @@ const EditDepartment = (props) => {
                     <td>{index + 1}</td>
                     <td>{value.dept_id}</td>
                     <td>{value.dept_name}</td>
+                    <td>{value.section}</td>
                     <td
                       style={{
                         display: "flex",
@@ -198,13 +204,35 @@ const EditDepartment = (props) => {
                 <Form.Label>Department</Form.Label>
                 <Form.Control
                   type="input"
-                  placeholder="Enter Position"
+                  placeholder="Enter Department"
                   name="dept_name"
                   value={handleInput.dept_name}
                   onChange={(e) => {
                     handleChange(e);
                   }}
                 />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="formBasicName">
+                <Form.Label>Section</Form.Label>
+                <Form.Control
+                  type="input"
+                  placeholder="Enter sections"
+                  name="section"
+                  value={handleInput.section}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+                <Form.Text className="text-muted">
+                  <span>
+                    create multiple sections by separating sections using comma(
+                    <strong>,</strong>).
+                  </span>
+                  <br />
+                  <span>ex. A,B,C</span>
+                </Form.Text>
               </Form.Group>
             </Col>
           </Row>

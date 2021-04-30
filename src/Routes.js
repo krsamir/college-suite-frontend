@@ -6,6 +6,8 @@ import ProtectedRoute from "./component/Authentication/Protected";
 import OwnerHome from "./component/Owner/Home";
 import AdminHome from "./component/Admin/Home";
 import TeacherHome from "./component/Teacher/Home";
+import adminSubjects from "./component/Admin/ManageSubject";
+import Subjects from "./component/Teacher/ManageSubjects";
 import StudentHome from "./component/Student/Home";
 import TeacherUpdate from "./component/Teacher/TeacherCreation";
 import Dept_and_position from "./component/Admin/Department and Position Module/DepartmentAndPosition";
@@ -49,7 +51,16 @@ const Routes = () => {
             component={Dept_and_position}
           />
         )}
-
+        {role === "teacher" && (
+          <ProtectedRoute path="/Subject" exact component={Subjects} />
+        )}
+        {role === "admin" && (
+          <ProtectedRoute
+            path="/manage-subject"
+            exact
+            component={adminSubjects}
+          />
+        )}
         <Route path="/login" exact component={LoginScreen} />
         <Route path="/notices" exact component={NoticeBoard} />
         <Route

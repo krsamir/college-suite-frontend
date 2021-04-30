@@ -17,6 +17,7 @@ const DepartmentComponent = (props) => {
     {
       dept_id: "",
       dept_name: "",
+      section: "",
     },
   ]);
   const [show, setShow] = useState(false);
@@ -29,6 +30,7 @@ const DepartmentComponent = (props) => {
       {
         dept_id: "",
         dept_name: "",
+        section: "",
       },
     ];
     setData(values);
@@ -38,6 +40,7 @@ const DepartmentComponent = (props) => {
       {
         dept_id: "",
         dept_name: "",
+        section: "",
       },
     ]);
   };
@@ -52,6 +55,7 @@ const DepartmentComponent = (props) => {
     setData(values);
   };
   const handleSave = () => {
+    // console.log(data);
     axios
       .post("/api/create_department", data)
       .then((res) => {
@@ -130,6 +134,28 @@ const DepartmentComponent = (props) => {
                         handleChange(index, e.target);
                       }}
                     />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formBasicName">
+                    <Form.Label>Sections</Form.Label>
+                    <Form.Control
+                      type="input"
+                      placeholder="Enter Sections"
+                      name="section"
+                      value={value.section}
+                      onChange={(e) => {
+                        handleChange(index, e.target);
+                      }}
+                    />
+                    <Form.Text className="text-muted">
+                      <span>
+                        create multiple sections by separating sections using
+                        comma(<strong>,</strong>).
+                      </span>
+                      <br />
+                      <span>ex. A,B,C</span>
+                    </Form.Text>
                   </Form.Group>
                 </Col>
                 <Col>

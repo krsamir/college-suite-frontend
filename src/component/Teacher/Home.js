@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Navbar, Nav, NavDropdown, Card, ListGroup } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
 const Home = (props) => {
+  const [teacherData, setTeacherData] = useState({
+    employee_id: "",
+    department: "",
+    isHod: "",
+    name: "",
+    position: "",
+  });
+  useEffect(() => {
+    axios
+      .get("/api/getParticularTeacher")
+      .then((response) => setTeacherData(response.data[0]))
+      .catch((e) => console.log(e));
+  }, []);
   const handleLogout = () => {
     props.removeToken();
     window.location.reload();
@@ -38,6 +52,11 @@ const Home = (props) => {
           <LinkContainer to="/notices" style={{ cursor: "pointer" }}>
             <ListGroup.Item>Latest Notice</ListGroup.Item>
           </LinkContainer>
+          {teacherData.isHod === "1" ? (
+            <LinkContainer to="/Subject" style={{ cursor: "pointer" }}>
+              <ListGroup.Item>Manage Subjects</ListGroup.Item>
+            </LinkContainer>
+          ) : null}
         </ListGroup>
       </Card>
     </>
