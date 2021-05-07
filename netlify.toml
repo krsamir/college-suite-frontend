@@ -1,0 +1,15 @@
+# Settings in the [build] context are global and are applied to all contexts
+# unless otherwise overridden by more specific contexts.
+
+# Here is another way to define context specific environment variables.
+[context.deploy-preview.environment]
+  ACCESS_TOKEN = "not so secret"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+
+# A basic redirect rule
+[[redirects]]
+  from = "/api/*"
+  to = "https://college-backend.herokuapp.com"
+
