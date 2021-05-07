@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form, Alert, Button } from "react-bootstrap";
 import axios from "axios";
 
 const ManageSubject = () => {
   const [data, setData] = useState([]);
+  const [semester, setSemester] = useState("");
   useEffect(() => {
     document.title = "Manage Subjects";
     const tableData = async () => {
@@ -49,7 +50,27 @@ const ManageSubject = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <div>
+    <div style={{ marginLeft: "20px", marginTop: "10px" }}>
+      <Alert variant="success">Select Current Semester</Alert>
+      <div style={{ width: "200px" }}>
+        <Form.Group controlId="exampleForm.semester">
+          <Form.Label>Select Active Semester</Form.Label>
+          <Form.Control
+            as="select"
+            onChange={(e) => {
+              setSemester(e.target.value);
+            }}
+            value={semester}
+          >
+            <option value="">Select a option</option>
+            <option value="even">Even</option>
+            <option value="odd">Odd</option>
+          </Form.Control>
+        </Form.Group>
+      </div>
+      <Button variant="outline-success" disabled={semester === ""}>
+        Apply Changes
+      </Button>
       <h3>Manage Subjects</h3>
       {data.length !== 0 && (
         <Table striped bordered hover variant="dark" style={{ width: "90%" }}>
@@ -62,7 +83,7 @@ const ManageSubject = () => {
               <th>Department</th>
               <th>Subject Active to students</th>
               <th>Status</th>
-              <th>Approve Subject</th>
+              <th>Approve / Disapprove Subject</th>
             </tr>
           </thead>
           <tbody>

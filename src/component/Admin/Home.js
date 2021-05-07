@@ -65,7 +65,7 @@ const Home = (props) => {
             <ListGroup.Item>Manage Department and Position</ListGroup.Item>
           </LinkContainer>
           <LinkContainer to="/manage-subject" style={{ cursor: "pointer" }}>
-            <ListGroup.Item>Manage Subjects</ListGroup.Item>
+            <ListGroup.Item>Manage Subjects and Semester</ListGroup.Item>
           </LinkContainer>
         </ListGroup>
       </Card>

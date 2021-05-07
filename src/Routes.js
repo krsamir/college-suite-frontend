@@ -14,6 +14,7 @@ import Dept_and_position from "./component/Admin/Department and Position Module/
 import Home from "./component/Layout/Home";
 import NoticeBoard from "./component/Layout/NoticeBoard";
 import CreateNotice from "./component/Admin/Notice Module/CreateNotice";
+import ManageAssignments from "./component/Student/ManageAssignments";
 const Routes = () => {
   const cookies = new Cookies();
   const role = cookies.get("rid");
@@ -61,6 +62,14 @@ const Routes = () => {
             component={adminSubjects}
           />
         )}
+        {role === "student" && (
+          <ProtectedRoute
+            path="/assignments"
+            exact
+            component={ManageAssignments}
+          />
+        )}
+
         <Route path="/login" exact component={LoginScreen} />
         <Route path="/notices" exact component={NoticeBoard} />
         <Route
