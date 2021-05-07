@@ -27,7 +27,7 @@ function LoginScreen(props) {
 
   const handleAdminLogin = async () => {
     await axios
-      .post("/login-admin", { email: adminEmail, password: adminPassword })
+      .post("/api/login-admin", { email: adminEmail, password: adminPassword })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -52,7 +52,7 @@ function LoginScreen(props) {
 
   const handleStudentLogin = async () => {
     await axios
-      .post("/login-student", {
+      .post("/api/login-student", {
         regdno: studentRegdNo,
         password: studentPassword,
       })
@@ -80,7 +80,7 @@ function LoginScreen(props) {
 
   const handleOwnerLogin = async () => {
     await axios
-      .post("/login-owner", { email: ownerEmail, password: ownerPassword })
+      .post("/api/login-owner", { email: ownerEmail, password: ownerPassword })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -105,7 +105,7 @@ function LoginScreen(props) {
 
   const handleTeacherLogin = async () => {
     await axios
-      .post("/login-teacher", {
+      .post("/api/login-teacher", {
         empId: teacherEmpId,
         password: teacherPassword,
       })
