@@ -8,7 +8,7 @@ const Home = (props) => {
   const [teacherData, setTeacherData] = useState({
     employee_id: "",
     department: "",
-    isHod: "",
+    ishod: "",
     name: "",
     position: "",
   });
@@ -52,7 +52,7 @@ const Home = (props) => {
           <LinkContainer to="/notices" style={{ cursor: "pointer" }}>
             <ListGroup.Item>Latest Notice</ListGroup.Item>
           </LinkContainer>
-          {teacherData.isHod === "1" ? (
+          {teacherData.ishod === 1 ? (
             <LinkContainer to="/Subject" style={{ cursor: "pointer" }}>
               <ListGroup.Item>Manage Subjects</ListGroup.Item>
             </LinkContainer>

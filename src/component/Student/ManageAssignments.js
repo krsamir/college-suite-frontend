@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Alert, Card, Button, Row, Col } from "react-bootstrap";
-
 export default class ManageAssignments extends Component {
   constructor() {
     super();
@@ -12,11 +11,17 @@ export default class ManageAssignments extends Component {
         name: "",
         regd_no: "",
         year_of_joining: "",
+        current_semester: "",
+        section: "",
       },
       subjects: [],
       fileUpload: {
+        lastModified: "",
+        lastModifiedDate: {},
         name: "",
+        size: "",
         type: "",
+        webkitRelativePath: "",
       },
       fileIndex: -1,
     };
@@ -34,24 +39,45 @@ export default class ManageAssignments extends Component {
       .then((res) => this.setState({ subjects: res.data }))
       .catch((e) => console.log(e));
   }
-  handleFileUpload = (e, fileIndexID) => {
+  handleFileUpload = (e, value, fileIndexID) => {
+    const {
+      department,
+      regd_no,
+      current_semester,
+      section,
+    } = this.state.userDetail;
+    const { subjectName } = value;
+    const Submitdata = `${regd_no}-${subjectName}-${department}-${section}-${current_semester}`;
     this.setState({ fileIndex: fileIndexID });
-    this.setState({ fileUpload: e.target.files[0] });
+    const file = new File(
+      e.target.files,
+      `${Submitdata}-${e.target.files[0].name}`
+    );
+    this.setState({
+      fileUpload: file,
+    });
   };
   handleSave = (value) => {
-    const formData = new FormData();
-    const { department, regd_no } = this.state.userDetail;
+    const {
+      department,
+      regd_no,
+      current_semester,
+      section,
+    } = this.state.userDetail;
     const { subjectName } = value;
-    console.log(department, regd_no, subjectName);
+    const formData = new FormData();
     formData.append("myFile[]", this.state.fileUpload);
-    formData.append("subjectName", subjectName);
-    formData.append("department", department);
     formData.append("regd_no", regd_no);
-
+    formData.append("department", department);
+    formData.append("subjectName", subjectName);
+    formData.append("semester", current_semester);
+    formData.append("section", section);
     axios
       .post("/studentassignment", formData)
       .then((res) => {
         console.log(res.data);
+        this.setState({ fileIndex: -1 });
+        this.setState({ fileUpload: null });
       })
       .catch((e) => console.log(e));
   };
@@ -68,7 +94,12 @@ export default class ManageAssignments extends Component {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <h3 style={{ flex: "1" }}>Assignments</h3>
             <Alert variant="success">
-              Hello {userDetail.name} from {userDetail.department.toUpperCase()}
+              Hello,
+              <br />
+              Name : {userDetail.name} <br />
+              Department : {userDetail.department.toUpperCase()}-
+              {userDetail.section.toUpperCase()} <br />
+              Semester : {userDetail.current_semester}
             </Alert>
           </div>
         </Alert>
@@ -82,7 +113,8 @@ export default class ManageAssignments extends Component {
                     .map((v) => v.toLowerCase())
                     .includes(userDetail.department.toLowerCase()) &&
                     value.status === "APPROVED" &&
-                    value.isActive === 1 && (
+                    value.isActive === 1 &&
+                    value.semester === userDetail.current_semester && (
                       <Card
                         body
                         style={{
@@ -103,10 +135,14 @@ export default class ManageAssignments extends Component {
                               <input
                                 type="file"
                                 // id="actual-btn"
+                                name="myFile[]"
                                 id={value.id}
                                 hidden
-                                onChange={(e) => handleFileUpload(e, value.id)}
+                                onChange={(e) =>
+                                  handleFileUpload(e, value, value.id)
+                                }
                                 multiple={false}
+                                encType="multipart/form-data"
                                 accept="application/pdf,application/vnd.ms-excel"
                               />
                               <label

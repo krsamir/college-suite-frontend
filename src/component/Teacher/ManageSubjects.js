@@ -10,7 +10,7 @@ export default class ManageSubjects extends Component {
       teacherData: {
         employee_id: "",
         department: "",
-        isHod: "",
+        ishod: -1,
         name: "",
         position: "",
       },
@@ -178,10 +178,10 @@ export default class ManageSubjects extends Component {
   };
   render() {
     const { teacherData } = this.state;
-    if (teacherData.isHod === "") {
+    if (teacherData.ishod === -1) {
       return <div></div>;
     }
-    if (teacherData.isHod === "0") {
+    if (teacherData.ishod === 0) {
       return (
         <div style={{ width: "80%", marginLeft: "40px", marginTop: "50px" }}>
           <Alert variant="success">

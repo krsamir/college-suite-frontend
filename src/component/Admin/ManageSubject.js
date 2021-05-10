@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Table, Form, Alert, Button } from "react-bootstrap";
+import { Table, Alert, Button, Row, Col, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
-
 const ManageSubject = () => {
   const [data, setData] = useState([]);
-  const [semester, setSemester] = useState("");
+  const [currentSemster, setCurrentSemster] = useState("");
   useEffect(() => {
     document.title = "Manage Subjects";
     const tableData = async () => {
@@ -18,6 +17,19 @@ const ManageSubject = () => {
         });
     };
     tableData();
+    const getCurrentSemester = async () => {
+      await axios
+        .get("/api/getSemester")
+        .then((res) => {
+          res.data[0].current_semester % 2 === 0
+            ? setCurrentSemster("Even")
+            : setCurrentSemster("Odd");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    getCurrentSemester();
   }, []);
   const updateTable = async () => {
     await axios
@@ -49,28 +61,62 @@ const ManageSubject = () => {
       })
       .catch((e) => console.log(e));
   };
+  const addSemester = () => {
+    axios
+      .get("/api/addSemester")
+      .then((resp) => {
+        console.log(resp.data);
+        getCurrentSemesterOnChange();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const reduceSemester = () => {
+    axios
+      .get("/api/reduceSemester")
+      .then((resp) => {
+        getCurrentSemesterOnChange();
+        console.log(resp.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getCurrentSemesterOnChange = async () => {
+    await axios
+      .get("/api/getSemester")
+      .then((res) => {
+        res.data[0].current_semester % 2 === 0
+          ? setCurrentSemster("Even")
+          : setCurrentSemster("Odd");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-      <Alert variant="success">Select Current Semester</Alert>
-      <div style={{ width: "200px" }}>
-        <Form.Group controlId="exampleForm.semester">
-          <Form.Label>Select Active Semester</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={(e) => {
-              setSemester(e.target.value);
-            }}
-            value={semester}
-          >
-            <option value="">Select a option</option>
-            <option value="even">Even</option>
-            <option value="odd">Odd</option>
-          </Form.Control>
-        </Form.Group>
-      </div>
-      <Button variant="outline-success" disabled={semester === ""}>
-        Apply Changes
-      </Button>
+      <Alert variant="success">Change Current Semester</Alert>
+      <Row>
+        <Col>
+          <ButtonGroup size="lg" className="mb-2">
+            <Button onClick={reduceSemester}>
+              <i className="fas fa-minus"></i>
+            </Button>
+            <Button disabled>Change Semester</Button>
+            <Button onClick={addSemester}>
+              <i className="fas fa-plus"></i>
+            </Button>
+          </ButtonGroup>
+        </Col>
+        <Col>
+          <Alert variant="dark" style={{ width: "290px" }}>
+            Current semseter is {currentSemster} Semster.
+          </Alert>
+        </Col>
+      </Row>
+      <hr />
       <h3>Manage Subjects</h3>
       {data.length !== 0 && (
         <Table striped bordered hover variant="dark" style={{ width: "90%" }}>
