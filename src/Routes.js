@@ -15,6 +15,7 @@ import Home from "./component/Layout/Home";
 import NoticeBoard from "./component/Layout/NoticeBoard";
 import CreateNotice from "./component/Admin/Notice Module/CreateNotice";
 import ManageAssignments from "./component/Student/ManageAssignments";
+import AssignmentUpload from "./component/Teacher/ManageUploadedAssignment";
 const Routes = () => {
   const cookies = new Cookies();
   const role = cookies.get("rid");
@@ -67,6 +68,14 @@ const Routes = () => {
             path="/assignments"
             exact
             component={ManageAssignments}
+          />
+        )}
+
+        {role === "teacher" && (
+          <ProtectedRoute
+            path="/assignment-masters"
+            exact
+            component={AssignmentUpload}
           />
         )}
 

@@ -57,8 +57,8 @@ const Home = (props) => {
               <ListGroup.Item>Manage Subjects</ListGroup.Item>
             </LinkContainer>
           ) : null}
-          <LinkContainer to="/manage-student" style={{ cursor: "pointer" }}>
-            <ListGroup.Item>Manage Student</ListGroup.Item>
+          <LinkContainer to="/assignment-masters" style={{ cursor: "pointer" }}>
+            <ListGroup.Item>Manage Assignments</ListGroup.Item>
           </LinkContainer>
         </ListGroup>
       </Card>

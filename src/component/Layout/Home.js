@@ -1,10 +1,11 @@
 import React from "react";
 import { Navbar, Nav, Card, ListGroup } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import "./Home.css";
 // NavDropdown
 const Home = () => {
   return (
-    <>
+    <div className="home">
       <Navbar bg="light" expand="lg">
         <LinkContainer to="/">
           <Navbar.Brand>WELCOME TO COLLEGE-SUITE</Navbar.Brand>
@@ -37,7 +38,7 @@ const Home = () => {
           </LinkContainer>
         </ListGroup>
       </Card>
-    </>
+    </div>
   );
 };
 
