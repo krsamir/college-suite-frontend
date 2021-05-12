@@ -4,6 +4,8 @@ import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import TeacherTable from "./TeacherTable";
+import {URL} from "../../Constants"
+
 const TeacherUpdate = (props) => {
   const [deptArray, setDeptArray] = useState([{ value: "", label: "" }]);
   const [positionArray, setPositionArray] = useState([
@@ -14,7 +16,7 @@ const TeacherUpdate = (props) => {
     const deptObj = { value: "", label: "" };
     const getDepartment = async () => {
       await axios
-        .get(`/api/getDepartment`)
+        .get(`${URL}/api/getDepartment`)
         .then((res) => {
           const deptArrays = res.data.map((val) => {
             deptObj.value = val.dept_name;
@@ -30,7 +32,7 @@ const TeacherUpdate = (props) => {
     };
     const getPosition = async () => {
       await axios
-        .get(`/api/getPosition`)
+        .get(`${URL}/api/getPosition`)
         .then((res) => {
           const positionArrays = res.data.map((val) => {
             deptObj.value = val.position;
@@ -129,7 +131,7 @@ const TeacherUpdate = (props) => {
   const handleSave = () => {
     // console.log(data);
     axios
-      .post("/api/create_teacher", data)
+      .post(`${URL}/api/create_teacher`, data)
       .then((response) => {
         console.log(response.data);
         setTimeout(() => {

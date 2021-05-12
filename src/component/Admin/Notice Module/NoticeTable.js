@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
 import { adminUtils } from "../../../Redux/Actions/AdminAction";
-
+import {URL} from "../../../Constants"
 const NoticeTable = (props) => {
   const { adminUtils, notice, history } = props;
   // console.log(props.update);
@@ -46,7 +46,7 @@ const NoticeTable = (props) => {
   };
   const handleDelete = (value) => {
     axios
-      .put("/api/delete_notice", { id: value.id })
+      .put(`${URL}/api/delete_notice`, { id: value.id })
       .then((res) => {
         if (res.data === "success") {
           props.successToast("Notice Deleted Successfully!");
@@ -74,7 +74,7 @@ const NoticeTable = (props) => {
     }
     if (handleInput.noticeTitle !== "" && handleInput.noticeBody !== "") {
       axios
-        .put("/api/edit_notice", handleInput)
+        .put(`${URL}/api/edit_notice`, handleInput)
         .then((res) => {
           if (res.data === "success") {
             props.successToast("Notice updated Successfully!");

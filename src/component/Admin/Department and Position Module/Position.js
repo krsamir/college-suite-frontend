@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
+import {URL} from "../../../Constants"
 
 const PositionComponent = (props) => {
   const { history, removeToken } = props;
@@ -54,7 +55,7 @@ const PositionComponent = (props) => {
   };
   const handleSave = () => {
     axios
-      .post("/api/create_position", data)
+      .post(`${URL}/api/create_position`, data)
       .then((res) => {
         if (res.data.status === "created") {
           props.successToast("Position Created Successfully!");

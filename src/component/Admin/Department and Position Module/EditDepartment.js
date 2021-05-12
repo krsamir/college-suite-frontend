@@ -10,13 +10,14 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
+import {URL} from "../../../Constants"
 
 const EditDepartment = (props) => {
   const { history, removeToken } = props;
   const [position, setPosition] = useState([]);
   const updatePosition = () => {
     axios
-      .get("/api/getDepartment")
+      .get(`${URL}/api/getDepartment`)
       .then((res) => setPosition(res.data))
       .catch((e) => {
         console.log(e);
@@ -26,7 +27,7 @@ const EditDepartment = (props) => {
   };
   useEffect(() => {
     axios
-      .get("/api/getDepartment")
+      .get(`${URL}/api/getDepartment`)
       .then((res) => {
         setPosition(res.data);
       })
@@ -59,7 +60,7 @@ const EditDepartment = (props) => {
   };
   const handleDelete = (value) => {
     axios
-      .put("/api/deleteDepartment", { id: value.id })
+      .put(`${URL}/api/deleteDepartment`, { id: value.id })
       .then((res) => {
         if (res.data === "success") {
           props.successToast("Department Deleted Successfully!");
@@ -87,7 +88,7 @@ const EditDepartment = (props) => {
     }
     if (handleInput.dept_id !== "" && handleInput.dept_name !== "") {
       axios
-        .put("/api/editDepartment", handleInput)
+        .put(`${URL}/api/editDepartment`, handleInput)
         .then((res) => {
           if (res.data.status === "success") {
             props.successToast("Department updated Successfully!");

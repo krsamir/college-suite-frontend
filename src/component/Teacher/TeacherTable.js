@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
+import {URL} from "../../Constants"
 const TeacherTable = () => {
   const [teacherData, setTeacherData] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/getTeacher")
+      .get(`${URL}/api/getTeacher`)
       .then((res) => setTeacherData(res.data))
       .catch((e) => console.log(e));
   }, []);

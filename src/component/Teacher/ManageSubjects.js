@@ -3,6 +3,7 @@ import { Table, Alert, Button, Modal, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import {URL} from "../../Constants"
 export default class ManageSubjects extends Component {
   constructor() {
     super();
@@ -43,12 +44,12 @@ export default class ManageSubjects extends Component {
     const deptObj = { value: "", label: "" };
 
     await axios
-      .get("/api/getParticularTeacher")
+      .get(`${URL}/api/getParticularTeacher`)
       .then((response) => this.setState({ teacherData: response.data[0] }))
       .catch((e) => console.log(e));
 
     await axios
-      .get(`/api/getDepartment`)
+      .get(`${URL}/api/getDepartment`)
       .then((res) => {
         const deptArrays = res.data.map((val) => {
           deptObj.value = val.dept_name;
@@ -63,7 +64,7 @@ export default class ManageSubjects extends Component {
       });
 
     await axios
-      .get("/api/getSubject")
+      .get(`${URL}/api/getSubject`)
       .then((res) => {
         this.setState({ subject: res.data });
       })
@@ -122,7 +123,7 @@ export default class ManageSubjects extends Component {
 
   handleSave = () => {
     axios
-      .post("/api/createSubject", this.state.data)
+      .post(`${URL}/api/createSubject`, this.state.data)
       .then((res) => {
         this.handleClose();
         this.updateTable();
@@ -133,7 +134,7 @@ export default class ManageSubjects extends Component {
   };
   updateTable = async () => {
     await axios
-      .get("/api/getSubject")
+      .get(`${URL}/api/getSubject`)
       .then((res) => {
         this.setState({ subject: res.data });
       })
@@ -160,7 +161,7 @@ export default class ManageSubjects extends Component {
     const isActive = 1;
     const { id, status } = value;
     await axios
-      .put(`/api/editSubject`, { id, status, isActive })
+      .put(`${URL}/api/editSubject`, { id, status, isActive })
       .then((res) => {
         this.updateTable();
       })
@@ -170,7 +171,7 @@ export default class ManageSubjects extends Component {
     const isActive = 0;
     const { id, status } = value;
     await axios
-      .put(`/api/editSubject`, { id, status, isActive })
+      .put(`${URL}/api/editSubject`, { id, status, isActive })
       .then((res) => {
         this.updateTable();
       })

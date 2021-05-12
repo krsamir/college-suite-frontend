@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Alert, Button, Row, Col, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
+import {URL} from "../../Constants"
 const ManageSubject = () => {
   const [data, setData] = useState([]);
   const [currentSemster, setCurrentSemster] = useState("");
@@ -8,7 +9,7 @@ const ManageSubject = () => {
     document.title = "Manage Subjects";
     const tableData = async () => {
       await axios
-        .get("/api/getSubject")
+        .get(`${URL}/api/getSubject`)
         .then((res) => {
           setData(res.data);
         })
@@ -19,7 +20,7 @@ const ManageSubject = () => {
     tableData();
     const getCurrentSemester = async () => {
       await axios
-        .get("/api/getSemester")
+        .get(`${URL}/api/getSemester`)
         .then((res) => {
           res.data[0].current_semester % 2 === 0
             ? setCurrentSemster("Even")
@@ -33,7 +34,7 @@ const ManageSubject = () => {
   }, []);
   const updateTable = async () => {
     await axios
-      .get("/api/getSubject")
+      .get(`${URL}/api/getSubject`)
       .then((res) => {
         setData(res.data);
       })
@@ -45,7 +46,7 @@ const ManageSubject = () => {
     const status = "APPROVED";
     const { id, isActive } = value;
     await axios
-      .put(`/api/editSubject`, { id, status, isActive })
+      .put(`${URL}/api/editSubject`, { id, status, isActive })
       .then((res) => {
         updateTable();
       })
@@ -55,7 +56,7 @@ const ManageSubject = () => {
     const status = "PENDING";
     const { id, isActive } = value;
     await axios
-      .put(`/api/editSubject`, { id, status, isActive })
+      .put(`${URL}/api/editSubject`, { id, status, isActive })
       .then((res) => {
         updateTable();
       })
@@ -63,7 +64,7 @@ const ManageSubject = () => {
   };
   const addSemester = () => {
     axios
-      .get("/api/addSemester")
+      .get(`${URL}/api/addSemester`)
       .then((resp) => {
         console.log(resp.data);
         getCurrentSemesterOnChange();
@@ -74,7 +75,7 @@ const ManageSubject = () => {
   };
   const reduceSemester = () => {
     axios
-      .get("/api/reduceSemester")
+      .get(`${URL}/api/reduceSemester`)
       .then((resp) => {
         getCurrentSemesterOnChange();
         console.log(resp.data);
@@ -85,7 +86,7 @@ const ManageSubject = () => {
   };
   const getCurrentSemesterOnChange = async () => {
     await axios
-      .get("/api/getSemester")
+      .get(`${URL}/api/getSemester`)
       .then((res) => {
         res.data[0].current_semester % 2 === 0
           ? setCurrentSemster("Even")

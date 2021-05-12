@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Alert, Card, Button, Row, Col } from "react-bootstrap";
+import {URL} from "../../Constants"
 export default class ManageAssignments extends Component {
   constructor() {
     super();
@@ -28,14 +29,14 @@ export default class ManageAssignments extends Component {
   }
   async componentDidMount() {
     axios
-      .get("/api/getStudent")
+      .get(`${URL}/api/getStudent`)
       .then((res) => {
         this.setState({ userDetail: res.data[0] });
       })
       .catch((e) => console.log(e));
 
     axios
-      .get("/api/getSubject")
+      .get(`${URL}/api/getSubject`)
       .then((res) => this.setState({ subjects: res.data }))
       .catch((e) => console.log(e));
   }
@@ -73,7 +74,7 @@ export default class ManageAssignments extends Component {
     formData.append("semester", current_semester);
     formData.append("section", section);
     axios
-      .post("/studentassignment", formData)
+      .post(`${URL}/studentassignment`, formData)
       .then((res) => {
         console.log(res.data);
         this.setState({ fileIndex: -1 });

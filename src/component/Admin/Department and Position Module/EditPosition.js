@@ -10,13 +10,14 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
+import {URL} from "../../../Constants"
 
 const EditPosition = (props) => {
   const { history, removeToken } = props;
   const [position, setPosition] = useState([]);
   const updatePosition = () => {
     axios
-      .get("/api/getPosition")
+      .get(`${URL}/api/getPosition`)
       .then((res) => setPosition(res.data))
       .catch((e) => {
         console.log(e);
@@ -26,7 +27,7 @@ const EditPosition = (props) => {
   };
   useEffect(() => {
     axios
-      .get("/api/getPosition")
+      .get(`${URL}/api/getPosition`)
       .then((res) => {
         setPosition(res.data);
       })
@@ -57,7 +58,7 @@ const EditPosition = (props) => {
   };
   const handleDelete = (value) => {
     axios
-      .put("/api/deletePosition", { id: value.id })
+      .put(`${URL}/api/deletePosition`, { id: value.id })
       .then((res) => {
         if (res.data === "success") {
           props.successToast("Position Deleted Successfully!");
@@ -85,7 +86,7 @@ const EditPosition = (props) => {
     }
     if (handleInput.position_id !== "" && handleInput.position !== "") {
       axios
-        .put("/api/editPosition", handleInput)
+        .put(`${URL}/api/editPosition`, handleInput)
         .then((res) => {
           if (res.data.status === "success") {
             props.successToast("Position updated Successfully!");

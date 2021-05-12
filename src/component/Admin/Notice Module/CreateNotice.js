@@ -19,6 +19,8 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NoticeTable from "./NoticeTable";
+import {URL} from "../../../Constants"
+
 function CreateNotice(props) {
   const [handleInput, setHandleInput] = useState({
     noticeTitle: "",
@@ -39,7 +41,7 @@ function CreateNotice(props) {
     }
     if (handleInput.noticeTitle !== "" && handleInput.noticeBody !== "") {
       axios
-        .post("/api/create-notice", handleInput)
+        .post(`${URL}/api/create-notice`, handleInput)
         .then((res) => {
           if (res.data === "success") {
             props.successToast("Notice Created Successfully!");

@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
-
+import {URL} from "../../../Constants"
 const DepartmentComponent = (props) => {
   const { history, removeToken } = props;
   const [data, setData] = useState([
@@ -57,7 +57,7 @@ const DepartmentComponent = (props) => {
   const handleSave = () => {
     // console.log(data);
     axios
-      .post("/api/create_department", data)
+      .post(`${URL}/api/create_department`, data)
       .then((res) => {
         if (res.data.status === "created") {
           props.successToast("Department Created Successfully!");

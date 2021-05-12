@@ -12,7 +12,8 @@ import { setLoginToken, setRoleToken } from "../../Redux/Actions/TokenAction";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import {URL} from "../../Constants"
+// "proxy": "http://localhost:5000",
 function LoginScreen(props) {
   const [role, setRole] = useState("");
   const [flag, setFlag] = useState(true);
@@ -27,7 +28,7 @@ function LoginScreen(props) {
 
   const handleAdminLogin = async () => {
     await axios
-      .post("/api/login-admin", { email: adminEmail, password: adminPassword })
+      .post(`${URL}/api/login-admin`, { email: adminEmail, password: adminPassword })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -52,7 +53,7 @@ function LoginScreen(props) {
 
   const handleStudentLogin = async () => {
     await axios
-      .post("/api/login-student", {
+      .post(`${URL}/api/login-student`, {
         regdno: studentRegdNo,
         password: studentPassword,
       })
@@ -80,7 +81,7 @@ function LoginScreen(props) {
 
   const handleOwnerLogin = async () => {
     await axios
-      .post("/api/login-owner", { email: ownerEmail, password: ownerPassword })
+      .post(`${URL}/api/login-owner`, { email: ownerEmail, password: ownerPassword })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -105,7 +106,7 @@ function LoginScreen(props) {
 
   const handleTeacherLogin = async () => {
     await axios
-      .post("/api/login-teacher", {
+      .post(`${URL}/api/login-teacher`, {
         empId: teacherEmpId,
         password: teacherPassword,
       })

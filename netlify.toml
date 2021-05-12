@@ -6,10 +6,5 @@
   ACCESS_TOKEN = "not so secret"
 
 [context.branch-deploy.environment]
-  NODE_ENV = "development"
+  NODE_ENV = "production"
 
-# A basic redirect rule
-[[redirects]]
-  from = "/api/*"
-  to = "https://college-backend.herokuapp.com"
-  status = 200

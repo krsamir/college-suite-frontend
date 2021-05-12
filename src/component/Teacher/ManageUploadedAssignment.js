@@ -1,35 +1,223 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Table } from "react-bootstrap";
+import { Alert, Table, Row, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import FileSaver from "file-saver";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import {URL} from "../../Constants"
+
 const ManageUploadedAssignment = () => {
+  const animatedComponents = makeAnimated();
+  const [semester, setSemester] = useState([]);
+  const [section, setSection] = useState([]);
+  const [subject, setSubject] = useState([]);
+  const [department, setDepartment] = useState([]);
+  const [disableOption, setDisableOption] = useState({
+    semester: false,
+    section: false,
+    subject: false,
+    department: false,
+  });
+  const obj = { value: "", label: "" };
+
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/assignment")
+      .get(`${URL}/api/assignment`)
       .then((res) => {
         setData(res.data);
+      })
+      .catch((e) => console.log(e));
+
+    axios
+      .get(`${URL}/api/details`)
+      .then((res) => {
+        setSemester(res.data[0]);
+        setSection(res.data[1]);
+        setSubject(res.data[2]);
+        setDepartment(res.data[3]);
       })
       .catch((e) => console.log(e));
   }, []);
 
   const handleFileDownload = (value) => {
-    const { filename } = value;
+    const { filename, mimetype } = value;
     axios({
-      url: "/api/download",
+      url: `${URL}/api/download`,
       method: "POST",
       responseType: "arraybuffer",
       data: { filename },
     })
       .then((res) => {
-        var blob = new Blob([res.data], { type: value.mimetype });
+        var blob = new Blob([res.data], { type: mimetype });
         FileSaver.saveAs(blob, filename);
       })
       .catch((e) => console.log(e));
   };
+  const handleChange = (value, action) => {
+    const options = { ...disableOption };
+    console.log(options);
+    let finalQuery = "";
+    if (value.length === 0) {
+      value = "";
+    } else {
+      value.map((value) => (finalQuery = finalQuery + value.value + ","));
+      value = finalQuery.slice(0, -1);
+    }
+    if (action.name === "semester") {
+      options["semester"] = false;
+      options["section"] = true;
+      options["subject"] = true;
+      options["department"] = true;
+      setDisableOption(options);
+      console.error("Semster");
+      console.log(value);
+    }
+    if (action.name === "section") {
+      options["semester"] = true;
+      options["section"] = false;
+      options["subject"] = true;
+      options["department"] = true;
+      setDisableOption(options);
+      console.error("section");
+      console.log(value);
+    }
+    if (action.name === "subject") {
+      options["semester"] = true;
+      options["section"] = true;
+      options["subject"] = false;
+      options["department"] = true;
+      setDisableOption(options);
+      console.error("subject");
+      console.log(value);
+    }
+    if (action.name === "department") {
+      options["semester"] = true;
+      options["section"] = true;
+      options["subject"] = true;
+      options["department"] = false;
+      setDisableOption(options);
+      console.error("department");
+      console.log(value);
+    }
+  };
   return (
     <div>
       <Alert variant="success">Manage Assignment</Alert>
+      <Alert variant="primary">
+        <div>Filters: </div>
+        <Row>
+          <Col>
+            <label htmlFor="semester">Semester</label>
+            <Select
+              isDisabled={disableOption.semester}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              // defaultValue={[options[1]]}
+              isMulti
+              options={semester.map((val) => {
+                obj.value = val.semester;
+                obj.label = val.semester;
+                return { value: obj.value, label: obj.label };
+              })}
+              name="semester"
+              // value={options.filter((val) =>
+              //   val.value.includes(value.department)
+              // )}
+              onChange={(value, action) => {
+                handleChange(value, action);
+              }}
+            />
+          </Col>
+          <Col>
+            <label htmlFor="section">Section</label>
+            <Select
+              isDisabled={disableOption.section}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              // defaultValue={[options[1]]}
+              isMulti
+              options={section.map((val) => {
+                obj.value = val.section;
+                obj.label = val.section;
+                return { value: obj.value, label: obj.label };
+              })}
+              name="section"
+              // value={options.filter((val) =>
+              //   val.value.includes(value.department)
+              // )}
+              onChange={(value, action) => {
+                handleChange(value, action);
+              }}
+            />
+          </Col>
+
+          <Col>
+            <label htmlFor="subject">Subject</label>
+
+            <Select
+              isDisabled={disableOption.subject}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              // defaultValue={[options[1]]}
+              isMulti
+              options={subject.map((val) => {
+                obj.value = val.subject;
+                obj.label = val.subject;
+                return { value: obj.value, label: obj.label };
+              })}
+              name="subject"
+              // value={options.filter((val) =>
+              //   val.value.includes(value.department)
+              // )}
+              onChange={(value, action) => {
+                handleChange(value, action);
+              }}
+            />
+          </Col>
+          <Col>
+            <label htmlFor="department">Department</label>
+            <Select
+              isDisabled={disableOption.department}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              // defaultValue={[options[1]]}
+              isMulti
+              options={department.map((val) => {
+                obj.value = val.department;
+                obj.label = val.department;
+                return { value: obj.value, label: obj.label };
+              })}
+              name="department"
+              // value={options.filter((val) =>
+              //   val.value.includes(value.department)
+              // )}
+              onChange={(value, action) => {
+                handleChange(value, action);
+              }}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              onClick={() =>
+                setDisableOption({
+                  semester: false,
+                  section: false,
+                  subject: false,
+                  department: false,
+                })
+              }
+              style={{ marginTop: "20px" }}
+            >
+              Reset Filters
+            </Button>
+          </Col>
+        </Row>
+
+        <div style={{ display: "flex", flexDirection: "row" }}> </div>
+      </Alert>
       <Table striped bordered hover variant="dark" style={{ width: "90%" }}>
         <thead>
           <tr>

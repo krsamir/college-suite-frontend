@@ -4,6 +4,7 @@ import { Navbar, Nav, NavDropdown, Card, ListGroup } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
+import {URL} from "../../Constants"
 const Home = (props) => {
   const [teacherData, setTeacherData] = useState({
     employee_id: "",
@@ -14,7 +15,7 @@ const Home = (props) => {
   });
   useEffect(() => {
     axios
-      .get("/api/getParticularTeacher")
+      .get(`${URL}/api/getParticularTeacher`)
       .then((response) => setTeacherData(response.data[0]))
       .catch((e) => console.log(e));
   }, []);
