@@ -1,6 +1,6 @@
 import { FETCH_NOTICE } from "./types";
 import axios from "axios";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 export const adminUtils = () => async (dispatch) => {
   await axios
     .get(`${URL}/api/get_notice`)

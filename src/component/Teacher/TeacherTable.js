@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 const TeacherTable = () => {
   const [teacherData, setTeacherData] = useState([]);
   useEffect(() => {
@@ -42,7 +42,7 @@ const TeacherTable = () => {
                   <td>{value.position}</td>
                   <td>{value.date_of_joining}</td>
                   <td>{value.contact}</td>
-                  <td>{value.isHod === "1" ? "Yes" : "No"}</td>
+                  <td>{value.isHod === 1 ? "Yes" : "No"}</td>
                   <td>{value.created_by}</td>
                   {/* <td
                     style={{
