@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import "./LoginScreen.css";
 import {
@@ -12,7 +12,7 @@ import { setLoginToken, setRoleToken } from "../../Redux/Actions/TokenAction";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 // "proxy": "http://localhost:5000",
 function LoginScreen(props) {
   const [role, setRole] = useState("");
@@ -28,7 +28,10 @@ function LoginScreen(props) {
 
   const handleAdminLogin = async () => {
     await axios
-      .post(`${URL}/api/login-admin`, { email: adminEmail, password: adminPassword })
+      .post(`${URL}/api/login-admin`, {
+        email: adminEmail,
+        password: adminPassword,
+      })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -81,7 +84,10 @@ function LoginScreen(props) {
 
   const handleOwnerLogin = async () => {
     await axios
-      .post(`${URL}/api/login-owner`, { email: ownerEmail, password: ownerPassword })
+      .post(`${URL}/api/login-owner`, {
+        email: ownerEmail,
+        password: ownerPassword,
+      })
       .then((response) => {
         if (response.data === "invaliduser") {
           props.warningToast("Wrong Credentials !");
@@ -139,6 +145,7 @@ function LoginScreen(props) {
           {" "}
           Registeration No :
           <input
+            className="inputBox"
             type="text"
             id="registerationId"
             value={studentRegdNo}
@@ -153,6 +160,7 @@ function LoginScreen(props) {
           {" "}
           Password :
           <input
+            className="inputBox"
             type="password"
             id="studentPassword"
             style={{
@@ -179,6 +187,7 @@ function LoginScreen(props) {
           {" "}
           Employee Id :
           <input
+            className="inputBox"
             type="text"
             id="employeeId"
             value={teacherEmpId}
@@ -193,6 +202,7 @@ function LoginScreen(props) {
           {" "}
           Password :
           <input
+            className="inputBox"
             type="password"
             id="teacherPassword"
             style={{
@@ -219,6 +229,7 @@ function LoginScreen(props) {
           {" "}
           Email :
           <input
+            className="inputBox"
             type="text"
             onChange={(e) => {
               setAdminEmail(e.target.value);
@@ -234,6 +245,7 @@ function LoginScreen(props) {
           {" "}
           Password :
           <input
+            className="inputBox"
             value={adminPassword}
             onChange={(e) => {
               setAdminPassword(e.target.value);
@@ -260,6 +272,7 @@ function LoginScreen(props) {
           {" "}
           Email :
           <input
+            className="inputBox"
             type="text"
             onChange={(e) => {
               setOwnerEmail(e.target.value);
@@ -275,6 +288,7 @@ function LoginScreen(props) {
           {" "}
           Password :
           <input
+            className="inputBox"
             value={ownerPassword}
             onChange={(e) => {
               setOwnerPassword(e.target.value);
@@ -305,27 +319,30 @@ function LoginScreen(props) {
     setAdminPassword("");
   };
   return (
-    <div>
+    <div className="bodyDivLogin">
       <div className="roleSelector">
-        {role === "student" && <div>{studentRole}</div>}
-        {role === "teacher" && <div>{teacherRole}</div>}
-        {role === "admin" && <div>{adminRole}</div>}
-        {role === "owner" && <div>{ownerRole}</div>}
-        {!flag && (
-          <Button variant="dark" className="backButton" onClick={handleBack}>
-            Back
-          </Button>
-        )}
+        <div className="smallBox">
+          {role === "student" && <div>{studentRole}</div>}
+          {role === "teacher" && <div>{teacherRole}</div>}
+          {role === "admin" && <div>{adminRole}</div>}
+          {role === "owner" && <div>{ownerRole}</div>}
+          {!flag && (
+            <Button variant="dark" className="backButton" onClick={handleBack}>
+              Back
+            </Button>
+          )}
+        </div>
       </div>
       {flag && (
         <div className="buttons">
+          <span className="heading">Login as</span>
           <Button
             variant="secondary"
             className="role__button"
             name="student"
             onClick={handleButtonClick}
           >
-            Login as Student
+            Student
           </Button>
           <Button
             variant="secondary"
@@ -333,7 +350,7 @@ function LoginScreen(props) {
             name="teacher"
             onClick={handleButtonClick}
           >
-            Login as Teacher
+            Teacher
           </Button>
           <Button
             variant="secondary"
@@ -341,18 +358,18 @@ function LoginScreen(props) {
             name="admin"
             onClick={handleButtonClick}
           >
-            Login as Admin
+            Admin
           </Button>
-          <Button
+          {/* <Button
             variant="secondary"
             className="role__button"
             name="owner"
             onClick={handleButtonClick}
           >
-            Login as Owner
-          </Button>
+            Owner
+          </Button> */}
           {/* <Link to="/Administrator/login">Login as Administrator</Link> */}
-          <Link to="/Administrator/Register">Register as Administrator</Link>
+          {/* <Link to="/Administrator/Register">Register as Administrator</Link> */}
         </div>
       )}
       <ToastContainer />

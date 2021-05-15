@@ -60,7 +60,7 @@ export default function Home1(props) {
     total_teacher,
   } = data;
   return (
-    <div>
+    <div className="bodyDiv">
       {/* <header>Something Here</header> */}
       <NavBar {...props} />
       <section>

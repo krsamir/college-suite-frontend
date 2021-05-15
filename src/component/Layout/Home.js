@@ -1,7 +1,7 @@
 import React from "react";
-import { Navbar, Nav, Card, ListGroup } from "react-bootstrap";
+import { Navbar, Nav, Card, ListGroup, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import "./Home.css";
+import "./HomeLayout.css";
 // NavDropdown
 const Home = () => {
   return (
@@ -31,13 +31,31 @@ const Home = () => {
           </NavDropdown> */}
         </Navbar.Collapse>
       </Navbar>
-      <Card style={{ width: "18rem" }}>
-        <ListGroup variant="flush">
-          <LinkContainer to="/notices" style={{ cursor: "pointer" }}>
-            <ListGroup.Item>Latest Notice</ListGroup.Item>
-          </LinkContainer>
-        </ListGroup>
-      </Card>
+      <div>
+        {/* Stack the columns on mobile by making one full-width and the other half-width */}
+        <Row>
+          <Col xs={12} md={3} className="leftPane">
+            <Card>
+              <ListGroup variant="flush">
+                <LinkContainer to="/notices" style={{ cursor: "pointer" }}>
+                  <ListGroup.Item>Latest Notice</ListGroup.Item>
+                </LinkContainer>
+              </ListGroup>
+            </Card>
+          </Col>
+          <Col xs={6} md={9}>
+            <div className="box">
+              <img
+                className="iterImage"
+                src={
+                  "https://images.squarespace-cdn.com/content/v1/57713a8e2994cae381dd86fe/1543925384526-GNBBO11VDMAKDWGOTDEJ/ke17ZwdGBToddI8pDm48kKqO9yY8Sg_C2idoZ0Ama9wUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcynUbF52ThmzgUF93Xs0uQnDd5gZTz1wVPFEnCC6mUNyt-HHUFHb_20rlDGoSbEme/1-5.jpg?format=2500w"
+                }
+                alt=""
+              />
+            </div>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };

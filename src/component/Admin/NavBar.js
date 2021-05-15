@@ -10,7 +10,7 @@ function NavBar(props) {
     window.location.reload();
   };
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Navbar bg="light" expand="lg">
         <LinkContainer to="/">
           <Navbar.Brand>College-Suite</Navbar.Brand>
