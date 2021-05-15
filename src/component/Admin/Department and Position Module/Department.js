@@ -10,14 +10,13 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
-import {URL} from "../../../Constants"
+import { URL } from "../../../Constants";
 const DepartmentComponent = (props) => {
   const { history, removeToken } = props;
   const [data, setData] = useState([
     {
       dept_id: "",
       dept_name: "",
-      section: "",
     },
   ]);
   const [show, setShow] = useState(false);
@@ -30,7 +29,6 @@ const DepartmentComponent = (props) => {
       {
         dept_id: "",
         dept_name: "",
-        section: "",
       },
     ];
     setData(values);
@@ -40,7 +38,6 @@ const DepartmentComponent = (props) => {
       {
         dept_id: "",
         dept_name: "",
-        section: "",
       },
     ]);
   };
@@ -136,7 +133,7 @@ const DepartmentComponent = (props) => {
                     />
                   </Form.Group>
                 </Col>
-                <Col>
+                {/* <Col>
                   <Form.Group controlId="formBasicName">
                     <Form.Label>Sections</Form.Label>
                     <Form.Control
@@ -157,7 +154,7 @@ const DepartmentComponent = (props) => {
                       <span>ex. A,B,C</span>
                     </Form.Text>
                   </Form.Group>
-                </Col>
+                </Col> */}
                 <Col>
                   <Form.Group
                     controlId="formBasicName"

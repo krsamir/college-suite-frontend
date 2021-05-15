@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 import { URL } from "../../Constants";
-const TeacherTable = () => {
+
+const TeacherTable = (props) => {
   const [teacherData, setTeacherData] = useState([]);
   useEffect(() => {
     axios

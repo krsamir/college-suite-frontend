@@ -24,6 +24,7 @@ const DepartmentAndPosition = (props) => {
             <EditPosition {...props} />
           </Col>
         </Row>
+        <Row></Row>
       </Container>
     </div>
   );

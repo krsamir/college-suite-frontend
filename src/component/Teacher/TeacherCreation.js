@@ -4,7 +4,7 @@ import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import TeacherTable from "./TeacherTable";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 
 const TeacherUpdate = (props) => {
   const [deptArray, setDeptArray] = useState([{ value: "", label: "" }]);

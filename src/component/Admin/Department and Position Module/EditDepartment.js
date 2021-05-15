@@ -10,11 +10,12 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
-import {URL} from "../../../Constants"
-
+import { URL } from "../../../Constants";
+import SectionTable from "./SectionTable";
 const EditDepartment = (props) => {
   const { history, removeToken } = props;
   const [position, setPosition] = useState([]);
+  const [subject, setSubject] = useState([]);
   const updatePosition = () => {
     axios
       .get(`${URL}/api/getDepartment`)
@@ -26,27 +27,43 @@ const EditDepartment = (props) => {
       });
   };
   useEffect(() => {
-    axios
-      .get(`${URL}/api/getDepartment`)
-      .then((res) => {
-        setPosition(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-        removeToken();
-        history.push("/");
-      });
+    const getDepartments = () => {
+      axios
+        .get(`${URL}/api/getDepartment`)
+        .then((res) => {
+          setPosition(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+          removeToken();
+          history.push("/");
+        });
+    };
+    getDepartments();
+    const getSubjects = () => {
+      axios
+        .get(`${URL}/api/getSubject`)
+        .then((res) => setSubject(res.data))
+        .catch((e) => {
+          console.log(e);
+          removeToken();
+          history.push("/");
+        });
+    };
+    getSubjects();
   }, [removeToken, history]);
   const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
   const [handleInput, setHandleInput] = useState({
     id: "",
     dept_id: "",
     dept_name: "",
-    section: "",
     status: "",
   });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleShow1 = () => setShow1(true);
+  const handleClose1 = () => setShow1(false);
 
   const handleEdit = (value) => {
     setHandleInput({
@@ -96,7 +113,6 @@ const EditDepartment = (props) => {
               id: "",
               dept_id: "",
               dept_name: "",
-              section: "",
             });
             updatePosition();
             handleClose();
@@ -119,11 +135,78 @@ const EditDepartment = (props) => {
       id: "",
       dept_id: "",
       dept_name: "",
-      section: "",
       status: "",
     });
   };
 
+  const [departmentData, setDepartmentData] = useState({
+    dept_id: "",
+    dept_name: "",
+  });
+  const [sectionData, setSectionData] = useState([{ section: "" }]);
+  const handleSection = (value) => {
+    const { dept_id, dept_name } = value;
+    setDepartmentData({ dept_id, dept_name });
+    handleShow1();
+  };
+
+  const handleAdd = () => {
+    var values = [...sectionData];
+    values = [
+      ...sectionData,
+      {
+        section: "",
+      },
+    ];
+    setSectionData(values);
+  };
+  const handleOnChangeSections = (e, index) => {
+    const target = e.target;
+    const values = [...sectionData];
+    values[index][target.name] = target.value;
+    setSectionData(values);
+  };
+  const handleRemove = (index) => {
+    const values = [...sectionData];
+    values.splice(index, 1);
+    setSectionData(values);
+  };
+  const handleSave1 = () => {
+    if (sectionData[0].section === "") {
+      alert("Select at least one section !!");
+    } else {
+      const departmentName = departmentData.dept_name;
+      const selectedSubject = subject
+        .map((value) => {
+          if (
+            value.department
+              .split(",")
+              .map((v) => v.toLowerCase())
+              .includes(departmentName.toLowerCase())
+          ) {
+            return { subjectName: value.subjectName };
+          } else {
+            return null;
+          }
+        })
+        .filter((value) => value !== null);
+      const data = sectionData.map((value) =>
+        selectedSubject.map((val) => {
+          return { ...val, ...value, departmentName };
+        })
+      );
+      axios
+        .post(`${URL}/api/createSection`, data)
+        .then((res) => {
+          window.location.reload();
+        })
+        .catch((e) => console.log(e));
+      handleClose1();
+    }
+  };
+  const handleModalExit1 = () => {
+    setSectionData([{ section: "" }]);
+  };
   return (
     <div>
       <h4>Department</h4>
@@ -133,7 +216,7 @@ const EditDepartment = (props) => {
             <th>#</th>
             <th>Department ID</th>
             <th>Department</th>
-            <th>Sections</th>
+            <th>Add Sections</th>
             <th>Edit/Delete</th>
           </tr>
         </thead>
@@ -146,7 +229,13 @@ const EditDepartment = (props) => {
                     <td>{index + 1}</td>
                     <td>{value.dept_id}</td>
                     <td>{value.dept_name}</td>
-                    <td>{value.section}</td>
+                    <td>
+                      <i
+                        style={{ marginLeft: "20px", cursor: "pointer" }}
+                        className="fas fa-plus-circle"
+                        onClick={() => handleSection(value)}
+                      ></i>
+                    </td>
                     <td
                       style={{
                         display: "flex",
@@ -214,26 +303,59 @@ const EditDepartment = (props) => {
                 />
               </Form.Group>
             </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        size="xl"
+        onExit={handleModalExit}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title style={{ display: "flex", flex: "1" }}>
+            Edit Department
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
             <Col>
-              <Form.Group controlId="formBasicName">
-                <Form.Label>Section</Form.Label>
+              <Form.Group controlId="formBasicemployee_id">
+                <Form.Label>Department ID</Form.Label>
                 <Form.Control
                   type="input"
-                  placeholder="Enter sections"
-                  name="section"
-                  value={handleInput.section}
+                  placeholder="Enter Position id"
+                  name="dept_id"
+                  value={handleInput.dept_id}
                   onChange={(e) => {
                     handleChange(e);
                   }}
                 />
-                <Form.Text className="text-muted">
-                  <span>
-                    create multiple sections by separating sections using comma(
-                    <strong>,</strong>).
-                  </span>
-                  <br />
-                  <span>ex. A,B,C</span>
-                </Form.Text>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="formBasicName">
+                <Form.Label>Department</Form.Label>
+                <Form.Control
+                  type="input"
+                  placeholder="Enter Department"
+                  name="dept_name"
+                  value={handleInput.dept_name}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -247,6 +369,96 @@ const EditDepartment = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* 2nd Modal */}
+      <Modal
+        show={show1}
+        onHide={handleClose1}
+        backdrop="static"
+        size="lg"
+        onExit={handleModalExit1}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title style={{ display: "flex", flex: "1" }}>
+            Add Section
+          </Modal.Title>
+          <Button
+            style={{
+              marginRight: "20px",
+            }}
+            onClick={handleAdd}
+          >
+            <i className="fas fa-plus"></i>
+            {"  "}Add
+          </Button>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col>
+              <Form.Group controlId="formBasicemployee_id">
+                <Form.Label>Department ID</Form.Label>
+                <Form.Control
+                  readOnly
+                  type="input"
+                  placeholder="Enter Position id"
+                  name="dept_id"
+                  value={departmentData.dept_id}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="formBasicName">
+                <Form.Label>Department</Form.Label>
+                <Form.Control
+                  readOnly
+                  type="input"
+                  placeholder="Enter Department"
+                  name="dept_name"
+                  value={departmentData.dept_name}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          {sectionData.map((value, index) => (
+            <div key={index}>
+              {" "}
+              <Row>
+                <Col>
+                  <Form.Group controlId="formBasicName">
+                    <Form.Label>section</Form.Label>
+                    <Form.Control
+                      type="input"
+                      placeholder="Enter section"
+                      name="section"
+                      value={value.section}
+                      onChange={(e) => handleOnChangeSections(e, index)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    style={{ height: "40px", marginTop: "32px" }}
+                    onClick={handleRemove}
+                  >
+                    Remove
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          ))}
+          {}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSave1}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Row>
+        <SectionTable {...props} />
+      </Row>
       <ToastContainer />
     </div>
   );
