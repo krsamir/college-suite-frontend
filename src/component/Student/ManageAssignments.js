@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Alert, Card, Button, Row, Col } from "react-bootstrap";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 export default class ManageAssignments extends Component {
   constructor() {
     super();
@@ -25,6 +25,7 @@ export default class ManageAssignments extends Component {
         webkitRelativePath: "",
       },
       fileIndex: -1,
+      sectionData: [],
     };
   }
   async componentDidMount() {
@@ -39,14 +40,17 @@ export default class ManageAssignments extends Component {
       .get(`${URL}/api/getSubject`)
       .then((res) => this.setState({ subjects: res.data }))
       .catch((e) => console.log(e));
+
+    axios
+      .get(`${URL}/api/getParticularSection`)
+      .then((res) => this.setState({ sectionData: res.data }))
+      .catch((e) => {
+        console.log(e);
+      });
   }
   handleFileUpload = (e, value, fileIndexID) => {
-    const {
-      department,
-      regd_no,
-      current_semester,
-      section,
-    } = this.state.userDetail;
+    const { department, regd_no, current_semester, section } =
+      this.state.userDetail;
     const { subjectName } = value;
     const Submitdata = `${regd_no}-${subjectName}-${department}-${section}-${current_semester}`;
     this.setState({ fileIndex: fileIndexID });
@@ -59,13 +63,9 @@ export default class ManageAssignments extends Component {
     });
   };
   handleSave = (value) => {
-    const {
-      department,
-      regd_no,
-      current_semester,
-      section,
-    } = this.state.userDetail;
-    const { subjectName } = value;
+    const { department, regd_no, current_semester, section } =
+      this.state.userDetail;
+      const { subjectName, subjectCode } = value;
     const formData = new FormData();
     formData.append("myFile[]", this.state.fileUpload);
     formData.append("regd_no", regd_no);
@@ -73,6 +73,7 @@ export default class ManageAssignments extends Component {
     formData.append("subjectName", subjectName);
     formData.append("semester", current_semester);
     formData.append("section", section);
+    formData.append("subjectCode", subjectCode);
     axios
       .post(`${URL}/studentassignment`, formData)
       .then((res) => {
@@ -87,8 +88,10 @@ export default class ManageAssignments extends Component {
     this.setState({ fileUpload: null });
   };
   render() {
-    const { userDetail, subjects, fileUpload, fileIndex } = this.state;
+    const { userDetail, subjects, fileUpload, fileIndex, sectionData } =
+      this.state;
     const { handleFileUpload, handleSave, handleCancel } = this;
+    console.log(sectionData);
     return (
       <div>
         <Alert variant="dark" style={{ padding: "20px", margin: "20px" }}>
@@ -98,9 +101,10 @@ export default class ManageAssignments extends Component {
               Hello,
               <br />
               Name : {userDetail.name} <br />
-              Department : {userDetail.department.toUpperCase()}-
-              {userDetail.section.toUpperCase()} <br />
-              Semester : {userDetail.current_semester}
+              Department : {userDetail.department.toUpperCase()}
+              <br />
+              Semester : {userDetail.current_semester} <br />
+              Section : {userDetail.section.toUpperCase()}
             </Alert>
           </div>
         </Alert>
@@ -146,23 +150,25 @@ export default class ManageAssignments extends Component {
                                 encType="multipart/form-data"
                                 accept="application/pdf,application/vnd.ms-excel"
                               />
-                              <label
-                                // htmlFor="actual-btn"
-                                htmlFor={value.id}
-                                style={{
-                                  backgroundColor: "indigo",
-                                  color: "white",
-                                  padding: "0.5rem",
-                                  fontFamily: "sans-serif",
-                                  borderRadius: "0.3rem",
-                                  cursor: "pointer",
-                                  //   marginTop: "1rem",
-                                  width: "200px",
-                                  textAlign: "center",
-                                }}
-                              >
-                                Upload Assignment
-                              </label>
+                              {
+                                <label
+                                  // htmlFor="actual-btn"
+                                  htmlFor={value.id}
+                                  style={{
+                                    backgroundColor: "indigo",
+                                    color: "white",
+                                    padding: "0.5rem",
+                                    fontFamily: "sans-serif",
+                                    borderRadius: "0.3rem",
+                                    cursor: "pointer",
+                                    //   marginTop: "1rem",
+                                    width: "200px",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  Upload Assignment
+                                </label>
+                              }
                             </Col>
                           </Row>
                         </div>

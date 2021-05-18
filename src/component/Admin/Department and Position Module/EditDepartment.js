@@ -143,10 +143,18 @@ const EditDepartment = (props) => {
     dept_id: "",
     dept_name: "",
   });
+  const [sectionArray, setsectionArray] = useState([]);
   const [sectionData, setSectionData] = useState([{ section: "" }]);
-  const handleSection = (value) => {
+  const handleSection = async (value) => {
     const { dept_id, dept_name } = value;
     setDepartmentData({ dept_id, dept_name });
+    await axios
+      .post(`${URL}/api/getSectionByDept`, { dept_id })
+      .then((res) => {
+        const sect = res.data.map((val) => val.section);
+        setsectionArray(sect);
+      })
+      .catch((e) => console.log(e));
     handleShow1();
   };
 
@@ -171,11 +179,12 @@ const EditDepartment = (props) => {
     values.splice(index, 1);
     setSectionData(values);
   };
-  const handleSave1 = () => {
+  const handleSave1 = async () => {
     if (sectionData[0].section === "") {
       alert("Select at least one section !!");
     } else {
       const departmentName = departmentData.dept_name;
+      const departmentId = departmentData.dept_id;
       const selectedSubject = subject
         .map((value) => {
           if (
@@ -184,7 +193,10 @@ const EditDepartment = (props) => {
               .map((v) => v.toLowerCase())
               .includes(departmentName.toLowerCase())
           ) {
-            return { subjectName: value.subjectName };
+            return {
+              subjectName: value.subjectName,
+              subjectCode: value.subjectCode,
+            };
           } else {
             return null;
           }
@@ -192,20 +204,29 @@ const EditDepartment = (props) => {
         .filter((value) => value !== null);
       const data = sectionData.map((value) =>
         selectedSubject.map((val) => {
-          return { ...val, ...value, departmentName };
+          return { ...val, ...value, departmentName, departmentId };
         })
       );
-      axios
-        .post(`${URL}/api/createSection`, data)
-        .then((res) => {
-          window.location.reload();
-        })
-        .catch((e) => console.log(e));
-      handleClose1();
+      const singleArray = [].concat(...data);
+      const sectiondataforPost = singleArray.filter(
+        (value) => !sectionArray.includes(value.section)
+      );
+      if (sectiondataforPost.length > 0) {
+        await axios
+          .post(`${URL}/api/createSection`, sectiondataforPost)
+          .then((res) => {
+            window.location.reload();
+          })
+          .catch((e) => console.log(e));
+        handleClose1();
+      } else {
+        props.warningToast("Requested Section Already Exist!");
+      }
     }
   };
   const handleModalExit1 = () => {
     setSectionData([{ section: "" }]);
+    setsectionArray([]);
   };
   return (
     <div>
@@ -437,7 +458,7 @@ const EditDepartment = (props) => {
                 <Col style={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
                     style={{ height: "40px", marginTop: "32px" }}
-                    onClick={handleRemove}
+                    onClick={() => handleRemove(index)}
                   >
                     Remove
                   </Button>
