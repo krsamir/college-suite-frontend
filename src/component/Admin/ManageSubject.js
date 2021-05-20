@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Table, Alert, Button, Row, Col, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
-import {URL} from "../../Constants"
+import _ from "lodash";
+import { URL } from "../../Constants";
 const ManageSubject = () => {
   const [data, setData] = useState([]);
   const [currentSemster, setCurrentSemster] = useState("");
+  const [allSections, setAllSections] = useState([]);
   useEffect(() => {
     document.title = "Manage Subjects";
     const tableData = async () => {
@@ -31,6 +33,15 @@ const ManageSubject = () => {
         });
     };
     getCurrentSemester();
+    const getAllSec = async () => {
+      await axios
+        .get(`${URL}/api/getSection`)
+        .then((res) => {
+          setAllSections(res.data);
+        })
+        .catch((e) => console.log(e));
+    };
+    getAllSec();
   }, []);
   const updateTable = async () => {
     await axios
@@ -43,6 +54,39 @@ const ManageSubject = () => {
       });
   };
   const handleApprove = async (value) => {
+    const { department, subjectName, subjectCode, approved_once } = value;
+    const selected_subject = department.split(",");
+    const allsec = selected_subject.map((val) =>
+      allSections
+        .map((value) => {
+          if (value.dept_name === val)
+            return { deptName: value.dept_name, dept_section: value.section };
+          else return null;
+        })
+        .filter((val) => val != null)
+    );
+    const existingUniqueSection = allsec
+      .map((value) => _.uniqBy(value, "dept_section"))
+      .filter((value) => value.length !== 0);
+    const fullArray = [].concat(...existingUniqueSection);
+
+    const arrayData = fullArray.map((value) => {
+      const { deptName, dept_section } = { ...value };
+      return {
+        departmentName: deptName,
+        section: dept_section,
+        subjectName,
+        subjectCode,
+      };
+    });
+    if (approved_once === null) {
+      await axios
+        .post(`${URL}/api/createSection`, [arrayData])
+        .then((res) => {
+          alert("Inserted new Sections too !");
+        })
+        .catch((e) => console.log(e));
+    }
     const status = "APPROVED";
     const { id, isActive } = value;
     await axios

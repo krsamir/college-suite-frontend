@@ -3,7 +3,7 @@ import { Table, Alert, Button, Modal, Row, Col, Form } from "react-bootstrap";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import {URL} from "../../Constants"
+import { URL } from "../../Constants";
 export default class ManageSubjects extends Component {
   constructor() {
     super();
@@ -122,8 +122,9 @@ export default class ManageSubjects extends Component {
   };
 
   handleSave = () => {
+    const { data } = this.state;
     axios
-      .post(`${URL}/api/createSubject`, this.state.data)
+      .post(`${URL}/api/createSubject`, data)
       .then((res) => {
         this.handleClose();
         this.updateTable();
@@ -292,6 +293,7 @@ export default class ManageSubjects extends Component {
                             handleChange(index, e.target);
                           }}
                         >
+                          <option value="">Select a Semester</option>
                           {["1", "2", "3", "4", "5", "6", "7", "8"].map(
                             (val, index) => (
                               <option key={index}>{val}</option>

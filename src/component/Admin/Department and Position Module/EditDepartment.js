@@ -12,10 +12,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { removeToken } from "../../../Redux/Actions/TokenAction";
 import { URL } from "../../../Constants";
 import SectionTable from "./SectionTable";
+import { Spinner } from "react-bootstrap";
+
 const EditDepartment = (props) => {
   const { history, removeToken } = props;
   const [position, setPosition] = useState([]);
   const [subject, setSubject] = useState([]);
+  const [loading, setLoading] = useState(false);
   const updatePosition = () => {
     axios
       .get(`${URL}/api/getDepartment`)
@@ -146,16 +149,18 @@ const EditDepartment = (props) => {
   const [sectionArray, setsectionArray] = useState([]);
   const [sectionData, setSectionData] = useState([{ section: "" }]);
   const handleSection = async (value) => {
+    setLoading(true);
     const { dept_id, dept_name } = value;
     setDepartmentData({ dept_id, dept_name });
     await axios
-      .post(`${URL}/api/getSectionByDept`, { dept_id })
+      .post(`${URL}/api/getSectionByDept`, { dept_name })
       .then((res) => {
         const sect = res.data.map((val) => val.section);
         setsectionArray(sect);
+        handleShow1();
+        setLoading(false);
       })
       .catch((e) => console.log(e));
-    handleShow1();
   };
 
   const handleAdd = () => {
@@ -184,7 +189,6 @@ const EditDepartment = (props) => {
       alert("Select at least one section !!");
     } else {
       const departmentName = departmentData.dept_name;
-      const departmentId = departmentData.dept_id;
       const selectedSubject = subject
         .map((value) => {
           if (
@@ -204,7 +208,7 @@ const EditDepartment = (props) => {
         .filter((value) => value !== null);
       const data = sectionData.map((value) =>
         selectedSubject.map((val) => {
-          return { ...val, ...value, departmentName, departmentId };
+          return { ...val, ...value, departmentName };
         })
       );
       const singleArray = [].concat(...data);
@@ -230,6 +234,22 @@ const EditDepartment = (props) => {
   };
   return (
     <div>
+      {loading && (
+        <Spinner
+          animation="border"
+          role="status"
+          style={{
+            width: "100px",
+            height: "100px",
+            margin: "auto",
+            display: "block",
+            zIndex: "9999",
+            position: "absolute",
+            marginLeft: "40%",
+            marginTop: "20%",
+          }}
+        ></Spinner>
+      )}
       <h4>Department</h4>
       <Table striped bordered hover variant="dark">
         <thead>
