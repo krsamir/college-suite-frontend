@@ -4,11 +4,11 @@
   margin-top: 50px;
 }
 .iterImage {
-  width: 800px;
+  width: 700px;
   border-radius: 10px;
 }
 .home {
-  height: 100vh;
+  height: 100%;
   background: -webkit-linear-gradient(
     to right,
     #4e4376,

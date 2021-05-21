@@ -3,6 +3,7 @@ import { Navbar, Nav, NavDropdown, Card, ListGroup } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
+import AttendanceModule from "./AttendanceModule";
 const Home = (props) => {
   const handleLogout = () => {
     props.removeToken();
@@ -18,17 +19,11 @@ const Home = (props) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link>Student Home</Nav.Link>
-            <LinkContainer to="/link">
-              <Nav.Link>Link</Nav.Link>
-            </LinkContainer>
           </Nav>
           <NavDropdown title="options" id="basic-nav-dropdown" className="mr-5">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
+            <NavDropdown.Item>
+              <AttendanceModule />
             </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>

@@ -76,6 +76,7 @@ function SectionTable() {
               <tr>
                 <th>#</th>
                 <th>Department Name</th>
+                <th>Semester</th>
                 <th>Subject Name</th>
                 <th>Section</th>
                 <th>Allocated Teacher</th>
@@ -89,6 +90,7 @@ function SectionTable() {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{value.dept_name}</td>
+                      <td>{value.semester}</td>
                       <td>{value.subject_name}</td>
                       <td>{value.section}</td>
                       <td

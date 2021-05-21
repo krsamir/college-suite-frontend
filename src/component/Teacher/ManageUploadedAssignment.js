@@ -6,6 +6,7 @@ import { URL } from "../../Constants";
 
 const ManageUploadedAssignment = () => {
   const [data, setData] = useState([]);
+  const [filteredArray, setfilteredArray] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -21,6 +22,7 @@ const ManageUploadedAssignment = () => {
       .get(`${URL}/api/assignment`)
       .then((res) => {
         setData(res.data);
+        setfilteredArray(res.data);
       })
       .catch((e) => console.log(e));
   }, []);
@@ -70,6 +72,7 @@ const ManageUploadedAssignment = () => {
       .get(`${URL}/api/assignment`)
       .then((res) => {
         setData(res.data);
+        setfilteredArray(res.data);
       })
       .catch((e) => console.log(e));
   };
@@ -83,65 +86,204 @@ const ManageUploadedAssignment = () => {
         <span style={{ color: "red" }}>
           ** Click on Assign / Total marks to assign marks
         </span>
-        <Table striped bordered hover variant="dark" style={{ width: "90%" }}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Department</th>
-              <th>Subject Name</th>
-              <th>Section</th>
-              <th>Semester</th>
-              <th>Registration No</th>
-              <th>FileName</th>
-              <th>Assigned Marks</th>
-              <th>Total Marks</th>
-              <th>Uploaded At</th>
-              <th>Download</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length !== 0 &&
-              data.map((value, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{value.department}</td>
-                    <td>{value.subject_name}</td>
-                    <td>{value.section}</td>
-                    <td>{value.semester}</td>
-                    <td>{value.regd_no}</td>
-                    <td>{value.filename}</td>
-                    <td onClick={() => handleMarksEntry(value)}>
-                      {value.assignedmarks === null ||
-                      value.assignedmarks === ""
-                        ? "-"
-                        : value.assignedmarks}
-                    </td>
-                    <td onClick={() => handleMarksEntry(value)}>
-                      {value.totalmarks === null || value.totalmarks === ""
-                        ? "-"
-                        : value.totalmarks}
-                    </td>
-                    <td>{value.uploadedat}</td>
-                    <td
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <i
-                        className="fas fa-download"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleFileDownload(value)}
-                      ></i>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-
+        <Row>
+          <Table striped bordered hover variant="dark" responsive>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Department</th>
+                <th>Subject Name</th>
+                <th>Section</th>
+                <th>Semester</th>
+                <th>Registration No</th>
+                <th>FileName</th>
+                <th>Assigned Marks</th>
+                <th>Total Marks</th>
+                <th>Uploaded At</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th></th>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.department
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Department"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.subject_name
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Subject"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.section.toLowerCase().includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Section"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.semester.toLowerCase().includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Semester"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.regd_no.toLowerCase().includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Regd. no."
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.filename.toLowerCase().includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search FileName"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const id = data.filter((val) =>
+                        val.uploadedat
+                          .toLowerCase()
+                          .includes(value.toLowerCase())
+                      );
+                      setfilteredArray(id);
+                    }}
+                    placeholder="Search Time"
+                    style={{
+                      border: "none",
+                      padding: "5px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td></td>
+              </tr>
+              {data.length !== 0 &&
+                filteredArray.map((value, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{value.department}</td>
+                      <td>{value.subject_name}</td>
+                      <td>{value.section}</td>
+                      <td>{value.semester}</td>
+                      <td>{value.regd_no}</td>
+                      <td>{value.filename}</td>
+                      <td onClick={() => handleMarksEntry(value)}>
+                        {value.assignedmarks === null ||
+                        value.assignedmarks === ""
+                          ? "-"
+                          : value.assignedmarks}
+                      </td>
+                      <td onClick={() => handleMarksEntry(value)}>
+                        {value.totalmarks === null || value.totalmarks === ""
+                          ? "-"
+                          : value.totalmarks}
+                      </td>
+                      <td>{value.uploadedat}</td>
+                      <td
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <i
+                          className="fas fa-download"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleFileDownload(value)}
+                        ></i>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+        </Row>
         <Modal
           show={show}
           onHide={handleClose}
