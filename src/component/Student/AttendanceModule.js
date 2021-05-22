@@ -43,12 +43,21 @@ class AttendanceModule extends Component {
   handleClose = () => this.setState({ show: false });
   handleShow = () => this.setState({ show: true });
   handleSave = () => {
-    // this.handleClose();
-    const { name, regd_no, department, section } = this.state.userDetail;
+    const { name, regd_no, department, section, current_semester } =
+      this.state.userDetail;
     const { time } = this.state;
     const date = new Date().toLocaleDateString("en-GB");
     const uniqueId = `${date}-${regd_no}`;
-    const data = { name, regd_no, department, section, time, date, uniqueId };
+    const data = {
+      name,
+      regd_no,
+      department,
+      section,
+      time,
+      date,
+      uniqueId,
+      current_semester,
+    };
     axios
       .post(`${URL}/api/attendance`, data)
       .then((res) => {
@@ -57,6 +66,7 @@ class AttendanceModule extends Component {
         } else if (res.data.status === "punched") {
           alert("Attendance Marked Successfully !!");
         }
+        this.handleClose();
       })
       .catch((e) => {
         console.log(e);
@@ -65,7 +75,7 @@ class AttendanceModule extends Component {
   render() {
     const { show, time, userDetail } = this.state;
     const { handleShow, handleClose, handleSave } = this;
-    const { name, regd_no, department, section } = userDetail;
+    const { name, regd_no, department, section, current_semester } = userDetail;
     return (
       <>
         <div variant="primary" onClick={handleShow}>
@@ -89,6 +99,7 @@ class AttendanceModule extends Component {
                   {"-"}
                   {section}
                 </span>
+                <span>Semester : {current_semester}</span>
               </Alert>
               <Alert variant="dark">
                 {" "}

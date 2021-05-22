@@ -5,7 +5,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import TeacherTable from "./TeacherTable";
 import { URL } from "../../Constants";
-
+import SectionWiseTeacherHead from "./SectionWiseTeacherHead";
 const TeacherUpdate = (props) => {
   const [deptArray, setDeptArray] = useState([{ value: "", label: "" }]);
   const [positionArray, setPositionArray] = useState([
@@ -154,7 +154,7 @@ const TeacherUpdate = (props) => {
         Create Teacher{" "}
         <i className="fas fa-pencil-alt" style={{ cursor: "pointer" }}></i>
       </Button>
-
+      <SectionWiseTeacherHead />
       <Modal
         show={show}
         onHide={handleClose}

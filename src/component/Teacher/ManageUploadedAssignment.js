@@ -255,14 +255,29 @@ const ManageUploadedAssignment = () => {
                       <td>{value.filename}</td>
                       <td onClick={() => handleMarksEntry(value)}>
                         {value.assignedmarks === null ||
-                        value.assignedmarks === ""
-                          ? "-"
-                          : value.assignedmarks}
+                        value.assignedmarks === "" ? (
+                          <i
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            className="fas fa-plus-circle"
+                          ></i>
+                        ) : (
+                          value.assignedmarks
+                        )}
                       </td>
                       <td onClick={() => handleMarksEntry(value)}>
-                        {value.totalmarks === null || value.totalmarks === ""
-                          ? "-"
-                          : value.totalmarks}
+                        {value.totalmarks === null ||
+                        value.totalmarks === "" ? (
+                          <i
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            className="fas fa-plus-circle"
+                          ></i>
+                        ) : (
+                          value.totalmarks
+                        )}
                       </td>
                       <td>{value.uploadedat}</td>
                       <td

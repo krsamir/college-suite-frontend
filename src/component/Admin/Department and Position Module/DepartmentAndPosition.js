@@ -4,6 +4,7 @@ import Department from "./Department";
 import Position from "./Position";
 import EditDepartment from "./EditDepartment";
 import EditPosition from "./EditPosition";
+
 const DepartmentAndPosition = (props) => {
   return (
     <div>
@@ -24,7 +25,6 @@ const DepartmentAndPosition = (props) => {
             <EditPosition {...props} />
           </Col>
         </Row>
-        <Row></Row>
       </Container>
     </div>
   );

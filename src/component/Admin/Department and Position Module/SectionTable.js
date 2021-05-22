@@ -105,9 +105,16 @@ function SectionTable() {
                         }}
                       >
                         {value.allocated_teacher === null ||
-                        value.allocated_teacher === ""
-                          ? "-"
-                          : value.allocated_teacher}
+                        value.allocated_teacher === "" ? (
+                          <i
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            className="fas fa-plus-circle"
+                          ></i>
+                        ) : (
+                          value.allocated_teacher
+                        )}
                       </td>
                       <td
                         style={{
@@ -133,10 +140,10 @@ function SectionTable() {
       <Modal
         show={show}
         onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
         size="sm"
-        // onExit={handleExit}
+        onExit={() => {
+          setName("");
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title style={{ display: "flex", flex: "1" }}>

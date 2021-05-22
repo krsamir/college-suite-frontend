@@ -16,6 +16,9 @@ import NoticeBoard from "./component/Layout/NoticeBoard";
 import CreateNotice from "./component/Admin/Notice Module/CreateNotice";
 import ManageAssignments from "./component/Student/ManageAssignments";
 import AssignmentUpload from "./component/Teacher/ManageUploadedAssignment";
+import AttendanceMaster from "./component/Teacher/AttendanceMaster";
+import IndividualAttendance from "./component/Teacher/IndividualAttendance";
+
 const Routes = () => {
   const cookies = new Cookies();
   const role = cookies.get("rid");
@@ -70,12 +73,25 @@ const Routes = () => {
             component={ManageAssignments}
           />
         )}
-
         {role === "teacher" && (
           <ProtectedRoute
             path="/assignment-masters"
             exact
             component={AssignmentUpload}
+          />
+        )}
+        {role === "teacher" && (
+          <ProtectedRoute
+            path="/attendance"
+            exact
+            component={AttendanceMaster}
+          />
+        )}
+        {role === "teacher" && (
+          <ProtectedRoute
+            path="/attendance/:id"
+            exact
+            component={IndividualAttendance}
           />
         )}
 

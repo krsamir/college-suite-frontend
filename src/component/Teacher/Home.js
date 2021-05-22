@@ -52,10 +52,12 @@ const Home = (props) => {
           <LinkContainer to="/assignment-masters" style={{ cursor: "pointer" }}>
             <ListGroup.Item>Manage Assignments</ListGroup.Item>
           </LinkContainer>
+          <LinkContainer to="/attendance" style={{ cursor: "pointer" }}>
+            <ListGroup.Item>Manage Attendance</ListGroup.Item>
+          </LinkContainer>
         </ListGroup>
       </Card>
     </>
   );
 };
-
 export default connect(null, { removeToken })(Home);
