@@ -13,18 +13,21 @@ const NoticeBoard = (props) => {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <p style={{ textAlign: "center", fontWeight: "bolder" }}>Notices</p>
           {notice.length !== 0 &&
-            notice.map((value) => (
-              <div key={value.id}>
-                <p
-                  style={{ textAlign: "center", fontWeight: "bold" }}
-                  className="titleTag"
-                >
-                  {value.Title}
-                </p>
-                <p className="bodyTag">{value.body}</p>
-                <hr />
-              </div>
-            ))}
+            notice.map(
+              (value) =>
+                value.status === "1" && (
+                  <div key={value.id}>
+                    <p
+                      style={{ textAlign: "center", fontWeight: "bold" }}
+                      className="titleTag"
+                    >
+                      {value.Title}
+                    </p>
+                    <p className="bodyTag">{value.body}</p>
+                    <hr />
+                  </div>
+                )
+            )}
         </div>
       </div>
     </div>
