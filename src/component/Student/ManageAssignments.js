@@ -29,19 +29,19 @@ export default class ManageAssignments extends Component {
     };
   }
   async componentDidMount() {
-    axios
+    await axios
       .get(`${URL}/api/getStudent`)
       .then((res) => {
         this.setState({ userDetail: res.data[0] });
       })
       .catch((e) => console.log(e));
 
-    axios
+    await axios
       .get(`${URL}/api/getSubject`)
       .then((res) => this.setState({ subjects: res.data }))
       .catch((e) => console.log(e));
 
-    axios
+    await axios
       .get(`${URL}/api/getParticularSection`)
       .then((res) => this.setState({ sectionData: res.data }))
       .catch((e) => {
@@ -65,7 +65,7 @@ export default class ManageAssignments extends Component {
   handleSave = (value) => {
     const { department, regd_no, current_semester, section } =
       this.state.userDetail;
-      const { subjectName, subjectCode } = value;
+    const { subjectName, subjectCode } = value;
     const formData = new FormData();
     formData.append("myFile[]", this.state.fileUpload);
     formData.append("regd_no", regd_no);
@@ -88,10 +88,8 @@ export default class ManageAssignments extends Component {
     this.setState({ fileUpload: null });
   };
   render() {
-    const { userDetail, subjects, fileUpload, fileIndex, sectionData } =
-      this.state;
+    const { userDetail, subjects, fileUpload, fileIndex } = this.state;
     const { handleFileUpload, handleSave, handleCancel } = this;
-    console.log(sectionData);
     return (
       <div>
         <Alert variant="dark" style={{ padding: "20px", margin: "20px" }}>

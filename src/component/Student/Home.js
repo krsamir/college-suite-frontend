@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
 import AttendanceModule from "./AttendanceModule";
+
 const Home = (props) => {
   const handleLogout = () => {
     props.removeToken();
@@ -35,6 +36,9 @@ const Home = (props) => {
           </LinkContainer>
           <LinkContainer to="/assignments" style={{ cursor: "pointer" }}>
             <ListGroup.Item>Manage Assignments</ListGroup.Item>
+          </LinkContainer>
+          <LinkContainer to="/marks" style={{ cursor: "pointer" }}>
+            <ListGroup.Item>Manage Marks</ListGroup.Item>
           </LinkContainer>
         </ListGroup>
       </Card>

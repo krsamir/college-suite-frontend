@@ -18,6 +18,7 @@ import ManageAssignments from "./component/Student/ManageAssignments";
 import AssignmentUpload from "./component/Teacher/ManageUploadedAssignment";
 import AttendanceMaster from "./component/Teacher/AttendanceMaster";
 import IndividualAttendance from "./component/Teacher/IndividualAttendance";
+import MarksComponent from "./component/Student/MarksModule";
 
 const Routes = () => {
   const cookies = new Cookies();
@@ -93,6 +94,10 @@ const Routes = () => {
             exact
             component={IndividualAttendance}
           />
+        )}
+
+        {role === "student" && (
+          <ProtectedRoute path="/marks" exact component={MarksComponent} />
         )}
 
         <Route path="/login" exact component={LoginScreen} />
