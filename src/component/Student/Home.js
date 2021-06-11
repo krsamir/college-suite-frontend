@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { removeToken } from "../../Redux/Actions/TokenAction";
 import AttendanceModule from "./AttendanceModule";
+import "../Layout/HomeLayout.css";
 
 const Home = (props) => {
   const handleLogout = () => {
@@ -11,7 +12,7 @@ const Home = (props) => {
     window.location.reload();
   };
   return (
-    <>
+    <div className="home1">
       <Navbar bg="light" expand="lg">
         <LinkContainer to="/">
           <Navbar.Brand>College-Suite</Navbar.Brand>
@@ -42,7 +43,7 @@ const Home = (props) => {
           </LinkContainer>
         </ListGroup>
       </Card>
-    </>
+    </div>
   );
 };
 

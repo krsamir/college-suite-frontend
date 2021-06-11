@@ -17,15 +17,15 @@ import books from "../../Resources/Icons/book.png";
 import DashboardCard from "./DashboardCard";
 export default function Home1(props) {
   const [data, setData] = useState({
-    total_notices: "",
-    total_dept: "",
-    total_position: "",
-    total_student: "",
-    active_subjects: "",
-    total_subjects: "",
-    semester: "",
-    total_teacher: "",
-    total_hod: "",
+    total_notices: 0,
+    total_dept: 0,
+    total_position: 0,
+    total_student: 0,
+    active_subjects: 0,
+    total_subjects: 0,
+    semester: "-",
+    total_teacher: 0,
+    total_hod: 0,
   });
   useEffect(() => {
     axios
